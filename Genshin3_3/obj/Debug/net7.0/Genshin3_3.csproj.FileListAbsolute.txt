@@ -1,0 +1,15 @@
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\Genshin3_3.deps.json
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\Genshin3_3.dll
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\Genshin3_3.pdb
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.csproj.AssemblyReference.cache
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.AssemblyInfoInputs.cache
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.AssemblyInfo.cs
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.csproj.CoreCompileInputs.cache
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.csproj.CopyComplete
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.dll
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\refint\Genshin3_3.dll
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.pdb
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\ref\Genshin3_3.dll
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\GenshinTCG.dll
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\GenshinTCG.pdb
