@@ -25,7 +25,7 @@ namespace Genshin3_3
                 {SenderTag.DamageIncrease.ToString(), new PersistentWeapon() },
                 {SenderTag.AfterUseSkill.ToString(), (me,p,s,v)=>
                     {
-                        if (p.AvailableTimes > 0 && s is UseSkillSender sks && sks.Skill.Category == SkillCategory.E)
+                        if (p.AvailableTimes > 0 && s is AfterUseSkillSender sks && sks.Skill.Category == SkillCategory.E)
                         {
                             p.AvailableTimes--;
                         }

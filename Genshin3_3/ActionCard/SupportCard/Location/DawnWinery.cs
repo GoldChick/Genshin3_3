@@ -11,7 +11,7 @@ namespace Genshin3_3
         public override bool CustomDesperated => true;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.UseDiceFromSwitch, new PersistentDiceCostModifier((me,p,s,v)=>p.AvailableTimes>0,0,1)},
+            { SenderTag.UseDiceFromSwitch, new PersistentDiceCostModifier<UseDiceFromSwitchSender>((me,p,s,v)=>p.AvailableTimes>0,0,1)},
             { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1 }
         };
 

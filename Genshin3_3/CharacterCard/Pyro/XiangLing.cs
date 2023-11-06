@@ -26,7 +26,7 @@ namespace Genshin3_3
                 { SenderTag.AfterUseSkill.ToString(),(me, p, s, v) =>
                     {
                         //自己不触发火轮
-                        if(s is UseSkillSender ski && (me.Characters[ski.CharIndex].Card is not XiangLing || ski.Skill.Category!=SkillCategory.Q))
+                        if(s is AfterUseSkillSender ski && (me.Characters[ski.CharIndex].Card is not XiangLing || ski.Skill.Category!=SkillCategory.Q))
                         {
                             me.Enemy.Hurt(new DamageVariable(3, 2, 0), this);
                             p.AvailableTimes --;
@@ -48,6 +48,15 @@ namespace Genshin3_3
 
         public override string NameID => "talent_xiangling";
 
-        public override CardPersistentTalent Effect => throw new NotImplementedException();
+        public override CardPersistentTalent Effect => new Talent_E();
+        private class Talent_E : CardPersistentTalent
+        {
+            public override int Skill => 1;
+            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            {
+                me.Enemy.Hurt(new(3,1), c.Card.Skills[1]);
+                base.AfterUseAction(me, c, targetArgs);
+            }
+        }
     }
 }

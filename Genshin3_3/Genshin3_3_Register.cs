@@ -69,6 +69,10 @@ namespace Genshin3_3
             consumer.Accept(new Talent_Ayaka());
             consumer.Accept(new Talent_Kaeya());
 
+            consumer.Accept(new Talent_Bennett());
+            consumer.Accept(new Talent_XiangLing());
+            consumer.Accept(new Talent_Yoimiya());
+
             consumer.Accept(new Talent_Ningguang());
         }
     }

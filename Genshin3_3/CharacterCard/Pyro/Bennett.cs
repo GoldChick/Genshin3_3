@@ -18,8 +18,13 @@ namespace Genshin3_3
         public override WeaponCategory WeaponCategory => WeaponCategory.Longweapon;
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
-        private class 鼓舞领域 : AbstractCardPersistentEffect
+        public class 鼓舞领域 : AbstractCardPersistentEffect
         {
+            private readonly bool _talent;
+            public 鼓舞领域(bool talent = false)
+            {
+                _talent = talent;
+            }
             public override int MaxUseTimes => 2;
             public override PersistentTriggerDictionary TriggerDic => new()
             {
@@ -27,22 +32,26 @@ namespace Genshin3_3
                 { SenderTag.DamageIncrease,(me,p,s,v)=>
                     {
                         if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
-	                    {
-                            dv.Damage+=2;
-	                    } 
+                        {
+                            if (_talent || me.Characters[me.CurrCharacter].HP>=7)
+                            {
+                                dv.Damage+=2;
+                            }
+                        }
                     }
                 },
                 { SenderTag.AfterUseSkill,(me, p, s, v) =>
                     {
-                        if (s is UseSkillSender uss)
+                        if (s is AfterUseSkillSender uss && me.Characters[uss.CharIndex].HP<7)
                         {
                             me.Heal(this,new DamageVariable(0,2,uss.CharIndex-me.CurrCharacter));
-	                    }
+                        }
                     }
                 }
             };
             public override string TextureNameSpace => "genshin3_3";
             public override string TextureNameID => "effect_bennett";
+            public override int[] Info(AbstractPersistent p) => new int[] { p.AvailableTimes, _talent ? 1 : 0 };
         }
     }
     public class Talent_Bennett : AbstractCardTalent
@@ -55,6 +64,23 @@ namespace Genshin3_3
 
         public override string NameID => "talent_bennett";
 
-        public override CardPersistentTalent Effect => throw new NotImplementedException();
+        public override CardPersistentTalent Effect => new Talent_E();
+        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        {
+            var p = me.Effects.Find("effect_bennett");
+            if (p != null)
+            {
+                p.Active = false;
+            }
+            base.AfterUseAction(me, targetArgs);
+        }
+        private class Talent_E : CardPersistentTalent
+        {
+            public override int Skill => 2;
+            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            {
+                me.Enemy.Hurt(new(3, 2), c.Card.Skills[2], () => me.AddPersistent(new Bennett.鼓舞领域(true), c.Index));
+            }
+        }
     }
 }

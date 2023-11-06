@@ -19,7 +19,7 @@ namespace Genshin3_3
             { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1},
             { SenderTag.AfterUseCard,(me,p,s,v)=>
             {
-                if (s is UseCardSender ucs && ucs.Card is AbstractFood)
+                if (s is AfterUseCardSender ucs && ucs.Card is AbstractFood)
                 {
                     me.RollCard(typeof(AbstractFood));
                     p.AvailableTimes--;

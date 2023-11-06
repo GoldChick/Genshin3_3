@@ -29,7 +29,7 @@ namespace Genshin3_3
             public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
             {
                 me.Enemy.Hurt(new DamageVariable(4, 4, 0), this);
-                var s = me.Summons.TryGetFirst(typeof(杀生樱));
+                var s = me.Summons.Find(typeof(杀生樱));
                 if (s != null)
                 {
                     s.AvailableTimes = 0;

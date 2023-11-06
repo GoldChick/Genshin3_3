@@ -12,7 +12,7 @@ namespace Genshin3_3
             { SenderTag.RoundStart, (me,p,s,v)=>p.Data=0 },
             {SenderTag.AfterSwitch,(me,p,s,v)=>
             {
-                if ((p.Data==null || p.Data.Equals(0)) && me.TeamIndex==s.TeamID && s is SwitchSender ss && me.Characters[ss.Target].MP==0)
+                if ((p.Data==null || p.Data.Equals(0)) && me.TeamIndex==s.TeamID && s is AfterSwitchSender ss && me.Characters[ss.Target].MP==0)
                 {
                     me.Characters[ss.Target].MP++;
                     p.Data=1;

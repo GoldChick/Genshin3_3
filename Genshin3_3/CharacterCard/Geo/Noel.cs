@@ -61,8 +61,8 @@ namespace Genshin3_3
 
                 public override PersistentTriggerDictionary TriggerDic => new()
                 {
-                    {SenderTag.UseDiceFromSkill,new PersistentDiceCostModifier(
-                        (me,p,s,v)=> s is UseDiceFromSkillSender udfss && udfss.ChaIndex==p.PersistentRegion && udfss.SkillIndex==0
+                    {SenderTag.UseDiceFromSkill,new PersistentDiceCostModifier<UseDiceFromSkillSender>(
+                        (me,p,s,v)=>  s.ChaIndex==p.PersistentRegion && s.SkillIndex==0
                         ,5,1
                      )},
                     {SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes--}
