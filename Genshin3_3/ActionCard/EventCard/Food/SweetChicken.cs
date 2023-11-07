@@ -7,9 +7,9 @@ namespace Genshin3_3
         public override AbstractCardPersistentEffect? AfterEatEffect => null;
         public override int[] Costs => Array.Empty<int>();
         public override string NameID => "food_sweetchicken";
-        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
-            me.Heal(this, new DamageVariable(0, 1));
+            me.Heal(this, new DamageVariable(0, 1, targetArgs[0] - me.CurrCharacter));
             base.AfterUseAction(me, targetArgs);
         }
     }

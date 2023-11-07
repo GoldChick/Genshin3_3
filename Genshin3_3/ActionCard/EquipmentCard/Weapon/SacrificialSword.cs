@@ -14,12 +14,12 @@ namespace Genshin3_3
 
         public override WeaponCategory WeaponCategory => WeaponCategory.Sword;
 
-        public override AbstractCardPersistentEffect Effect => new 祭礼剑_effect();
+        public override AbstractCardPersistentWeapon Effect => new 祭礼剑_effect();
 
-        public class 祭礼剑_effect : AbstractCardPersistentEffect
+        public class 祭礼剑_effect : AbstractCardPersistentWeapon
         {
+            //TODO: checkit
             public override int MaxUseTimes => 1;
-            public override bool CustomDesperated => false;
             public override PersistentTriggerDictionary TriggerDic => new()
             {
                 {SenderTag.DamageIncrease.ToString(), new PersistentWeapon() },

@@ -51,7 +51,7 @@ namespace Genshin3_3
 
             public override bool TriggerOnce => true;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.AddPersistent(new 潜行(), c.Index);
             }
@@ -63,8 +63,7 @@ namespace Genshin3_3
         public override string CharacterNameID => "debt";
         public override int Skill => 1;
         public override int[] Costs => new int[] { 0,0,0,3};
-        public override string NameID => "talent_debt";
-        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             var p = me.Effects.Find(typeof(讨债哥.潜行));
             if (p != null)
@@ -76,7 +75,7 @@ namespace Genshin3_3
         private class Talent_E: CardPersistentTalent
         {
             public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(3, 1), c.Card.Skills[1],()=>me.AddPersistent(new 讨债哥.潜行(true),c.Index));
             }

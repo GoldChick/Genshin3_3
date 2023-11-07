@@ -30,13 +30,12 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 0, 0, 0, 0, 0, 4 };
 
-        public override string NameID => "talent_collei";
         //private class 飞叶迴斜_Effect : CardPersistentTalent
         //{
         //    private bool _prepare;
         //    private bool _trigger;
         //    public override int MaxUseTimes => 1;
-        //    public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+        //    public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
         //    {
         //        base.AfterUseAction(me, c, targetArgs);
         //    }

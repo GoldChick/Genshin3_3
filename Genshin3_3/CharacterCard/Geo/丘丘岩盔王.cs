@@ -21,7 +21,7 @@ namespace Genshin3_3
 
             public override bool TriggerOnce => true;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.AddPersistent(new 岩盔(), c.Index);
             }

@@ -61,7 +61,7 @@ namespace Genshin3_3
 
             public override bool TriggerOnce => throw new NotImplementedException();
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 throw new NotImplementedException();
             }

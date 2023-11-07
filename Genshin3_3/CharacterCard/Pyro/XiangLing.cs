@@ -46,13 +46,11 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 0, 0, 4 };
 
-        public override string NameID => "talent_xiangling";
-
         public override CardPersistentTalent Effect => new Talent_E();
         private class Talent_E : CardPersistentTalent
         {
             public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(3,1), c.Card.Skills[1]);
                 base.AfterUseAction(me, c, targetArgs);

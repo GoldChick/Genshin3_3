@@ -26,11 +26,11 @@ namespace Genshin3_3
 
             public override bool TriggerOnce => false;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 if (targetArgs[0] == me.TeamIndex && me.CurrCharacter == c.Index)
                 {
-                    if (c.Talent.Full && c.Talent[0].Type == typeof(Talent_Ayaka))
+                    if (c.Effects.Contains("talent"))
                     {
                         Console.WriteLine("寒天触发了？？");
                     }
@@ -46,7 +46,6 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 2 };
 
-        public override string NameID => "talent_ayaka";
 
         public override CardPersistentTalent Effect => new 天赋();
 

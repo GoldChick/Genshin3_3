@@ -24,7 +24,7 @@ namespace Genshin3_3
             public override SkillCategory Category => SkillCategory.E;
             public override int[] Costs => new int[] { 0, 0, 0, 1 };
             public override bool GiveMP => false;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.AddPersistent(new 点燃(2), c.Index);
             }
@@ -92,8 +92,7 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 0, 0, 2 };
 
-        public override string NameID => "talent_yoimiya";
-        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             var p = me.Effects.Find(typeof(Yoimiya.E.点燃));
             if (p != null)
@@ -105,7 +104,7 @@ namespace Genshin3_3
         private class Talent_E : CardPersistentTalent
         {
             public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.AddPersistent(new Yoimiya.E.点燃(3), c.Index);
             }

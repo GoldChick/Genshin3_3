@@ -12,7 +12,7 @@ namespace Genshin3_3
         public override int[] Costs => Array.Empty<int>();
 
 
-        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             me.AddPersistent(new LeaveItToMeEffect());
         }

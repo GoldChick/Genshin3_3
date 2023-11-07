@@ -11,7 +11,7 @@ namespace Genshin3_3
         new CharacterEffectQ(3,2,new 鼓舞领域(),false,3,4)
         };
 
-        public override string NameID => "xiangling";
+        public override string NameID => "bennett";
 
         public override ElementCategory CharacterElement => ElementCategory.Pyro;
 
@@ -62,10 +62,8 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 0, 0, 4 };
 
-        public override string NameID => "talent_bennett";
-
         public override CardPersistentTalent Effect => new Talent_E();
-        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             var p = me.Effects.Find("effect_bennett");
             if (p != null)
@@ -77,7 +75,7 @@ namespace Genshin3_3
         private class Talent_E : CardPersistentTalent
         {
             public override int Skill => 2;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(3, 2), c.Card.Skills[2], () => me.AddPersistent(new Bennett.鼓舞领域(true), c.Index));
             }

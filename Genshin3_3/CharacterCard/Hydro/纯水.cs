@@ -34,7 +34,7 @@ namespace Genshin3_3
                 new SimpleSummon("genshin3_3","summon_squirrel",2,2,2),
                 new Frog()
             };
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
             }
             private class Frog : AbstractCardPersistentSummon
@@ -64,7 +64,7 @@ namespace Genshin3_3
 
             public override int[] Costs => new int[] { 0, 0, 3 };
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(2, 4 + me.Summons.Count), this);
             }
@@ -79,12 +79,10 @@ namespace Genshin3_3
         public override int Skill => 3;
 
         public override int[] Costs => new int[] { 0,0,4};
-
-        public override string NameID => "talent_hydro";
         private class Talent_E: CardPersistentTalent
         {
             public override int Skill => 3;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 base.AfterUseAction(me, c, targetArgs);
                 me.Summons.Copy().ForEach(p => p.AvailableTimes++);

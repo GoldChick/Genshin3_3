@@ -9,11 +9,9 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 1 };
 
-        public TargetEnum[] TargetEnums => new TargetEnum[] { TargetEnum.Character_Me };
+        public override AbstractCardPersistentArtifact Effect =>  new 赌徒_Effect();
 
-        public override AbstractCardPersistentEffect Effect =>  new 赌徒_Effect();
-
-        public class 赌徒_Effect : AbstractCardPersistentEffect
+        public class 赌徒_Effect : AbstractCardPersistentArtifact
         {
             public override int MaxUseTimes => 3;
 

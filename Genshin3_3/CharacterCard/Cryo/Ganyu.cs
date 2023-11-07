@@ -46,7 +46,7 @@ namespace Genshin3_3
 
             public override int[] Costs => new int[] { 0, 5 };
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.MultiHurt(new DamageVariable[] { new(1, 2, 0), new(-1, 2, 0, true) }, this);
                 me.AddPersistent(new SimpleEffect("涉过了"), c.Index);

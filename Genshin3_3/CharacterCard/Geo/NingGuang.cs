@@ -35,7 +35,7 @@ namespace Genshin3_3
 
             public override int[] Costs => new int[] { 0, 0, 0, 0, 0, 3 };
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new DamageVariable(5, me.Effects.Contains(typeof(璇玑屏)) ? 8 : 6, 0), this);
             }
@@ -51,7 +51,6 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 0, 0, 0, 0, 4 };
 
-        public override string NameID => "talent_ningguang";
         private class 储之千日_用之一刻_Effect : CardPersistentTalent
         {
             public override PersistentTriggerDictionary TriggerDic => new()

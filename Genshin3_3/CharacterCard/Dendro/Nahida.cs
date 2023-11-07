@@ -22,7 +22,7 @@ namespace Genshin3_3
 
             public override SkillCategory Category => throw new NotImplementedException();
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 throw new NotImplementedException();
             }
@@ -33,7 +33,7 @@ namespace Genshin3_3
 
             public override SkillCategory Category => SkillCategory.E;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 for (int i = 0; i < me.Enemy.Characters.Length; i++)
                 {
@@ -51,11 +51,11 @@ namespace Genshin3_3
             {
                 {
                     SenderTag.AfterHurt,
-                    (me, p, s, v) => { if(s is HurtSender hs && hs.Reaction != null) { if(hs.TeamID == me.TeamIndex && hs.TargetIndex == p.PersistentRegion) { p.AvailableTimes --; p.Data = 1; me.Hurt(new DamageVariable(-1, 1, 0), this); me.EffectTrigger(me.Game, me.TeamIndex, new SimpleSender(怨种印触发)); } } } 
+                    (me, p, s, v) => { if(s is HurtSender hs && hs.Reaction!=ReactionTags.None) { if(hs.TeamID == me.TeamIndex && hs.TargetIndex == p.PersistentRegion) { p.AvailableTimes --; p.Data = 1; me.Hurt(new DamageVariable(-1, 1, 0), this); me.EffectTrigger(me.Game, me.TeamIndex, new SimpleSender(怨种印触发)); } } }
                 },
                 {
                     怨种印触发,
-                    (me, p, s, v) => { if(p.Data != null && p.Data.Equals(1)) { p.Data = null; } else { p.AvailableTimes --; p.Data = 1; me.Hurt(new DamageVariable(-1, 1, p.PersistentRegion - me.CurrCharacter), this); } } 
+                    (me, p, s, v) => { if(p.Data != null && p.Data.Equals(1)) { p.Data = null; } else { p.AvailableTimes --; p.Data = 1; me.Hurt(new DamageVariable(-1, 1, p.PersistentRegion - me.CurrCharacter), this); } }
                 }
             };
 

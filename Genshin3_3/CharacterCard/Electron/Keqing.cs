@@ -12,7 +12,7 @@ namespace Genshin3_3
         public override bool CostSame => false;
 
 
-        public override void AfterUseAction(PlayerTeam me, int[]? targetArgs = null)
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             for (int i = 0; i < me.Characters.Length; i++)
             {
@@ -63,7 +63,7 @@ namespace Genshin3_3
 
             public override SkillCategory Category => SkillCategory.E;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(4, 3, 0), this);
                 if (me is PlayerTeam pt)
@@ -90,7 +90,7 @@ namespace Genshin3_3
             public override bool CostSame => false;
             public override SkillCategory Category => SkillCategory.Q;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.MultiHurt(new DamageVariable[]
                 {

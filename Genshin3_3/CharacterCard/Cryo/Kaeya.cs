@@ -46,11 +46,10 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 4 };
 
-        public override string NameID => "talent_kaeya";
         private class 冷血之剑_Effect : CardPersistentTalent
         {
             public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 base.AfterUseAction(me, c, targetArgs);
                 me.Heal(c.Card.Skills[Skill], new DamageVariable(0, 2));

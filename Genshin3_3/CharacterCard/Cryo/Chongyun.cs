@@ -28,11 +28,9 @@ namespace Genshin3_3
         public override int Skill => 1;
 
         public override int[] Costs => new int[] { 0, 3 };
-
-        public override string NameID => "talent_chongyun";
         private class E : CardPersistentTalent
         {
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 base.AfterUseAction(me, c, targetArgs);
                 //TODO:附魔伤害+1
