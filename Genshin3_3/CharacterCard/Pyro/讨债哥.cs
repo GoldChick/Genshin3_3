@@ -21,28 +21,31 @@ namespace Genshin3_3
         public override string NameID => "debt";
         public class 潜行 : AbstractCardPersistentEffect
         {
+            public override string TextureNameID => PersistentTextures.Shield_Purple;
             public override int MaxUseTimes { get; }
             public 潜行(bool talent = false)
             {
                 MaxUseTimes = talent ? 3 : 2;
-                TriggerDic.Add(SenderTag.ElementEnchant, (me, p, s, v) =>
+                TriggerDic = new()
                 {
-                    if (PersistentFunc.IsCurrCharacterDamage(me, p, s, v, out var dv))
+                    { SenderTag.HurtDecrease, new PersistentPurpleShield(1) },
+                    { SenderTag.ElementEnchant, (me, p, s, v) =>
                     {
-                        if (talent)
+                        if (PersistentFunc.IsCurrCharacterDamage(me, p, s, v, out var dv))
                         {
-                            dv.Element = 3;
+                            if (talent)
+                            {
+                                dv.Element = 3;
+                            }
+                            dv.Damage++;
+                            p.AvailableTimes--;
                         }
-                        dv.Damage++;
-                        p.AvailableTimes--;
                     }
-                });
+                    }
+                };
             }
 
-            public override PersistentTriggerDictionary TriggerDic => new()
-            {
-                { SenderTag.HurtDecrease,new PersistentPurpleShield(1,1)}
-            };
+            public override PersistentTriggerDictionary TriggerDic { get; }
         }
 
         private class 被动 : AbstractPassiveSkill
@@ -57,7 +60,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Talent_讨债哥 : AbstractCardTalent
+    public class Talent_讨债哥 : AbstractCardEquipmentFightActionTalent
     {
         public override CardPersistentTalent Effect => new Talent_E();
         public override string CharacterNameID => "debt";
@@ -65,11 +68,7 @@ namespace Genshin3_3
         public override int[] Costs => new int[] { 0,0,0,3};
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
-            var p = me.Effects.Find(typeof(讨债哥.潜行));
-            if (p != null)
-            {
-                p.Active = false;
-            }
+            me.Effects.TryRemove(typeof(讨债哥.潜行));
             base.AfterUseAction(me, targetArgs);
         }
         private class Talent_E: CardPersistentTalent

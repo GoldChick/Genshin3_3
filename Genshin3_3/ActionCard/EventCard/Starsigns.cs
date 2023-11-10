@@ -4,9 +4,9 @@ using TCGBase;
 
 namespace Genshin3_3
 {
-    public class XingTianZhiZhao : AbstractCardEvent
+    public class Starsigns : AbstractCardEvent
     {
-        public override string NameID => "xingtianzhizhao";
+        public override string NameID => "event_starsigns";
 
         public override bool CostSame => false;
 

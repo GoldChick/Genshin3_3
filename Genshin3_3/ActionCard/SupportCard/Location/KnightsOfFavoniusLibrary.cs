@@ -1,7 +1,7 @@
 ﻿using TCGBase;
 namespace Genshin3_3
 {
-    public class KnightsOfFavoniusLibrary : AbstractCardSupport,IDamageSource
+    public class KnightsOfFavoniusLibrary : AbstractCardSupport
     {
         public override string NameID => "location_knightsoffavoniuslibrary";
         public override SupportTags SupportTag => SupportTags.Place;
@@ -20,7 +20,5 @@ namespace Genshin3_3
                 }
             }
         };
-
-        public DamageSource DamageSource => DamageSource.Addition;
     }
 }

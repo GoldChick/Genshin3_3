@@ -5,9 +5,7 @@ namespace Genshin3_3
 {
     public class LeaveItToMe : AbstractCardEvent
     {
-        public override string NameID => "leaveittome";
-
-        public override bool CostSame => false;
+        public override string NameID => "event_leaveittome";
 
         public override int[] Costs => Array.Empty<int>();
 
@@ -20,12 +18,13 @@ namespace Genshin3_3
         {
             public override int MaxUseTimes => 1;
 
-            public override string TextureNameID => PersistentTextures.Buff;
+            public override string TextureNameID => PersistentTextures.Special;
 
-            public override PersistentTriggerDictionary TriggerDic => new() { 
+            public override PersistentTriggerDictionary TriggerDic => new() 
+            { 
                 { SenderTag.AfterSwitch, (me,p,s,v)=>
                 {
-                    if (v is FastActionVariable fav)
+                    if (me.TeamIndex==s.TeamID && v is FastActionVariable fav)
                     {
                         if (!fav.Fast)
                         {

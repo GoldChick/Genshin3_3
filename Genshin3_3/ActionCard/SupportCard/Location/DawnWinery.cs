@@ -1,7 +1,7 @@
 ﻿using TCGBase;
 namespace Genshin3_3
 {
-    public class DawnWinery : AbstractCardSupport, IDamageSource
+    public class DawnWinery : AbstractCardSupport
     {
         public override string NameID => "location_dawnwinery";
         public override SupportTags SupportTag => SupportTags.Place;
@@ -14,7 +14,5 @@ namespace Genshin3_3
             { SenderTag.UseDiceFromSwitch, new PersistentDiceCostModifier<UseDiceFromSwitchSender>((me,p,s,v)=>p.AvailableTimes>0,0,1)},
             { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1 }
         };
-
-        public DamageSource DamageSource => DamageSource.Addition;
     }
 }

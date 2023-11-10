@@ -7,11 +7,12 @@ namespace Genshin3_3
     /// </summary>
     public class Ganyu : AbstractCardCharacter
     {
-        public override int MaxMP => 1;
+        public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleA(0,2,1),
             new CharacterEffectE(1,1,new 冰莲(),false),
-            new CharacterSingleSummonQ(1,2,new SimpleSummon("冰灵珠",1,2,2)),
+            new 霜华矢(),
+            new CharacterSingleSummonQ(1,2,new 冰灵珠()),
         };
         private class 冰莲 : AbstractCardPersistentEffect
         {
@@ -37,7 +38,7 @@ namespace Genshin3_3
                     }
                 }
             };
-
+            public override string TextureNameSpace => "genshin3_3";
             public override string TextureNameID => "summon_ganyu";
         }
         private class 霜华矢 : AbstractCardSkill
@@ -49,7 +50,7 @@ namespace Genshin3_3
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.MultiHurt(new DamageVariable[] { new(1, 2, 0), new(-1, 2, 0, true) }, this);
-                me.AddPersistent(new SimpleEffect("涉过了"), c.Index);
+                me.AddPersistent(new SimpleEffect("used_5a"), c.Index);
             }
         }
 
@@ -60,5 +61,24 @@ namespace Genshin3_3
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
 
         public override string NameID => "ganyu";
+    }
+    public class Talent_Ganyu : AbstractCardEquipmentFightActionTalent
+    {
+        public override string CharacterNameID => "ganyu";
+
+        public override int Skill => 2;
+
+        public override CardPersistentTalent Effect => new E();
+
+        public override int[] Costs => new int[] { 0, 5 };
+        private class E : CardPersistentTalent
+        {
+            public override int Skill => 2;
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
+            {
+                me.Enemy.MultiHurt(new DamageVariable[] { new(1, 2, 0), new(-1, c.Effects.Contains("used_5a") ? 3 : 2, 0, true) }, c.Card.Skills[2]);
+                me.AddPersistent(new SimpleEffect("used_5a"), c.Index);
+            }
+        }
     }
 }

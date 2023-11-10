@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
         new CharacterSimpleA(0,2,3),
-        new CharacterSingleSummonE(new SimpleSummon("genshin3_3","summon_xiangling",4,2,2),3),
+        new CharacterSingleSummonE(new SimpleSummon("genshin3_3","summon_xiangling",3,2,2),3),
         new CharacterEffectQ(3,3,new 火轮(),false,3,4)
         };
 
@@ -26,7 +26,7 @@ namespace Genshin3_3
                 { SenderTag.AfterUseSkill.ToString(),(me, p, s, v) =>
                     {
                         //自己不触发火轮
-                        if(s is AfterUseSkillSender ski && (me.Characters[ski.CharIndex].Card is not XiangLing || ski.Skill.Category!=SkillCategory.Q))
+                        if(me.TeamIndex==s.TeamID && s is AfterUseSkillSender ski && (me.Characters[ski.CharIndex].Card is not XiangLing || ski.Skill.Category!=SkillCategory.Q))
                         {
                             me.Enemy.Hurt(new DamageVariable(3, 2, 0), this);
                             p.AvailableTimes --;
@@ -38,7 +38,7 @@ namespace Genshin3_3
             public override string TextureNameID => "effect_xiangling";
         }
     }
-    public class Talent_XiangLing : AbstractCardTalent
+    public class Talent_XiangLing : AbstractCardEquipmentFightActionTalent
     {
         public override string CharacterNameID => "xiangling";
 
@@ -52,7 +52,7 @@ namespace Genshin3_3
             public override int Skill => 1;
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
-                me.Enemy.Hurt(new(3,1), c.Card.Skills[1]);
+                me.Enemy.Hurt(new(3, 1), c.Card.Skills[1]);
                 base.AfterUseAction(me, c, targetArgs);
             }
         }

@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-            new CharacterSimpleA(1,1),
+            new CharacterSimpleA(2,1),
             new 召唤(1),
             new 召唤(2),
             new 潮涌与激流(),
@@ -45,7 +45,7 @@ namespace Genshin3_3
                 public override bool CustomDesperated => true;
                 public override PersistentTriggerDictionary TriggerDic => new()
                 {
-                    { SenderTag.HurtDecrease,new PersistentPurpleShield(1,1)},
+                    { SenderTag.HurtDecrease,new PersistentPurpleShield(1)},
                     { SenderTag.RoundOver,(me,p,s,v)=>
                     {
                         if (p.AvailableTimes==0)
@@ -70,7 +70,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Talent_纯水 : AbstractCardTalent
+    public class Talent_纯水 : AbstractCardEquipmentFightActionTalent
     {
         public override CardPersistentTalent Effect => new Talent_E();
 

@@ -52,7 +52,7 @@ namespace Genshin3_3
                     MaxUseTimes = maxusetimes;
                     TriggerDic.Add(SenderTag.AfterUseSkill, (me, p, s, v) =>
                     {
-                        if (s is AfterUseSkillSender uss && uss.CharIndex==p.PersistentRegion && uss.Skill.Category==SkillCategory.A)
+                        if (me.TeamIndex == s.TeamID && s is AfterUseSkillSender uss && uss.CharIndex == p.PersistentRegion && uss.Skill.Category == SkillCategory.A)
                         {
                             if (maxusetimes == 3)
                             {
@@ -82,7 +82,7 @@ namespace Genshin3_3
             public override string TextureNameID => "effect_yoimiya";
         }
     }
-    public class Talent_Yoimiya : AbstractCardTalent
+    public class Talent_Yoimiya : AbstractCardEquipmentFightActionTalent
     {
         public override CardPersistentTalent Effect => new Talent_E();
 
@@ -94,11 +94,7 @@ namespace Genshin3_3
 
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
-            var p = me.Effects.Find(typeof(Yoimiya.E.点燃));
-            if (p != null)
-            {
-                p.Active = false;
-            }
+            me.Effects.TryRemove(typeof(Yoimiya.E.点燃));
             base.AfterUseAction(me, targetArgs);
         }
         private class Talent_E : CardPersistentTalent

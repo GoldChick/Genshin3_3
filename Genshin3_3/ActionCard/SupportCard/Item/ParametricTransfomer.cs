@@ -30,7 +30,7 @@ namespace Genshin3_3
                         me.AddDiceRange(1+me.Random.Next(7),1+me.Random.Next(7),1+me.Random.Next(7));
                     }
                 }
-                p.Data=0;
+                p.Data=null;
             }}
         };
     }

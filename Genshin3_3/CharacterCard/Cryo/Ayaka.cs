@@ -9,7 +9,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleA(0,2,1),
             new CharacterSimpleE(1,3),
-            new CharacterSingleSummonQ(1,4,new SimpleSummon("双肩血管飞",1,2,2)),
+            new CharacterSingleSummonQ(1,4,new SimpleSummon("genshin3_3","summon_ayaka",1,2,2)),
             new 神里流霰步(),
         };
 
@@ -30,28 +30,40 @@ namespace Genshin3_3
             {
                 if (targetArgs[0] == me.TeamIndex && me.CurrCharacter == c.Index)
                 {
-                    if (c.Effects.Contains("talent"))
-                    {
-                        Console.WriteLine("寒天触发了？？");
-                    }
                     me.AddPersistent(new Enchant(1, 1), c.Index);
                 }
             }
         }
     }
-    public class Talent_Ayaka : AbstractCardTalent
+    public class Talent_Ayaka : AbstractCardEquipmentOnlyTalent
     {
-        private static readonly Ayaka _ayaka = new();
-        public override string CharacterNameID => _ayaka.NameID;
+        public override string CharacterNameID => "ayaka";
+        public override int[] Costs => new int[] { 0, 2 };
+        public override CardPersistentTalent Effect => new E();
 
-        public override int[] Costs => new int[] { 2 };
-
-
-        public override CardPersistentTalent Effect => new 天赋();
-
-        public override int Skill => 3;
-        public class 天赋 : CardPersistentTalent
+        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
+            me.Characters[targetArgs[0]].Effects.TryRemove("equipment", "passive_genshin3_3_ayaka");
+            base.AfterUseAction(me, targetArgs);
+        }
+        public class E : CardPersistentTalent
+        {
+            public override int MaxUseTimes => 1;
+            public override PersistentTriggerDictionary TriggerDic => new()
+            {
+                { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1},
+                { SenderTag.UseDiceFromSwitch,new PersistentDiceCostModifier<UseDiceFromSwitchSender>(
+                    (me,p,s,v)=>s.Target==p.PersistentRegion,0,1)},
+                { SenderTag.AfterSwitch,(me,p,s,v)=>
+                {
+                    if (s is AfterSwitchSender ss && s.TeamID == me.TeamIndex && ss.Target==p.PersistentRegion)
+                    {
+                        me.Characters[p.PersistentRegion].Effects.TryRemove("minecraft","enchant_cryo");
+                        me.AddPersistent(new Enchant(1, 1,true,1), p.PersistentRegion);
+                    }
+                }
+                }
+            };
         }
     }
 }

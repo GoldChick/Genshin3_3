@@ -36,9 +36,9 @@ namespace Genshin3_3
             };
         }
     }
-    public class Talent_Kaeya : AbstractCardTalent
+    public class Talent_Kaeya : AbstractCardEquipmentFightActionTalent
     {
-        public override CardPersistentTalent Effect => throw new NotImplementedException();
+        public override CardPersistentTalent Effect => new E();
 
         public override string CharacterNameID => "kaeya";
 
@@ -46,14 +46,22 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 4 };
 
-        private class 冷血之剑_Effect : CardPersistentTalent
+        private class E : CardPersistentTalent
         {
-            public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
+            public override int MaxUseTimes => 1;
+            public override PersistentTriggerDictionary TriggerDic => new()
             {
-                base.AfterUseAction(me, c, targetArgs);
-                me.Heal(c.Card.Skills[Skill], new DamageVariable(0, 2));
-            }
+                { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1},
+                { SenderTag.AfterUseSkill,(me,p,s,v)=>
+                {
+                    if (me.TeamIndex==s.TeamID && p.AvailableTimes>0 && s is AfterUseSkillSender ss && ss.CharIndex==p.PersistentRegion && ss.Skill.Category==SkillCategory.E)
+                    {
+                        me.Heal(this,new DamageVariable(0,2,ss.CharIndex-me.CurrCharacter));
+                        p.AvailableTimes--;
+                    }
+                }
+                }
+            };
         }
     }
 

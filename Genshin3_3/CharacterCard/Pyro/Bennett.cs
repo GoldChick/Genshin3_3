@@ -42,7 +42,7 @@ namespace Genshin3_3
                 },
                 { SenderTag.AfterUseSkill,(me, p, s, v) =>
                     {
-                        if (s is AfterUseSkillSender uss && me.Characters[uss.CharIndex].HP<7)
+                        if (me.TeamIndex==s.TeamID && s is AfterUseSkillSender uss && me.Characters[uss.CharIndex].HP<7)
                         {
                             me.Heal(this,new DamageVariable(0,2,uss.CharIndex-me.CurrCharacter));
                         }
@@ -54,7 +54,7 @@ namespace Genshin3_3
             public override int[] Info(AbstractPersistent p) => new int[] { p.AvailableTimes, _talent ? 1 : 0 };
         }
     }
-    public class Talent_Bennett : AbstractCardTalent
+    public class Talent_Bennett : AbstractCardEquipmentFightActionTalent
     {
         public override string CharacterNameID => "bennett";
 

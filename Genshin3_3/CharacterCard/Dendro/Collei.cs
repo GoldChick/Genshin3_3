@@ -20,9 +20,9 @@ namespace Genshin3_3
         public override string NameID => "collei";
     }
 
-    public class 飞叶迴斜 : AbstractCardTalent
+    public class Talent_Collei : AbstractCardEquipmentFightActionTalent
     {
-        public override CardPersistentTalent Effect => null;
+        public override CardPersistentTalent Effect => new E();
 
         public override string CharacterNameID => "collei";
 
@@ -30,34 +30,48 @@ namespace Genshin3_3
 
         public override int[] Costs => new int[] { 0, 0, 0, 0, 0, 0, 4 };
 
-        //private class 飞叶迴斜_Effect : CardPersistentTalent
-        //{
-        //    private bool _prepare;
-        //    private bool _trigger;
-        //    public override int MaxUseTimes => 1;
-        //    public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-        //    {
-        //        base.AfterUseAction(me, c, targetArgs);
-        //    }
-        //    public override PersistentTriggerDictionary TriggerDic => new()
-        //    {
-        //        {SenderTag.BeforeUseSkill,(me,p,s,v)=> _prepare=true},
-        //        {SenderTag.AfterHurt,(me,p,s,v)=>
-        //        {
-        //        }
-        //        },
-        //        {SenderTag.AfterUseSkill,(me,p,s,v)=>
-        //        {
-        //            _prepare=false;
-        //        }
-        //        }
-        //    };
-        //}
+        private class E : CardPersistentTalent
+        {
+            public override PersistentTriggerDictionary TriggerDic => new()
+            {
+                { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1}
+            };
+            public override int MaxUseTimes => 1;
+            public override int Skill => 1;
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
+            {
+                me.Enemy.Hurt(new(6, 3), c.Card.Skills[1], () =>
+                {
+                    var talent = c.Effects.Find(typeof(E));
+                    if (talent != null && talent.AvailableTimes > 0)
+                    {
+                        me.AddPersistent(new 飞叶());
+                        talent.AvailableTimes--;
+                    }
+                });
+            }
+        }
         private class 飞叶 : AbstractCardPersistentEffect
         {
             public override int MaxUseTimes => 1;
-
-            public override PersistentTriggerDictionary TriggerDic => throw new NotImplementedException();
+            public override string TextureNameID => PersistentTextures.Enchant_Dendro;
+            public override PersistentTriggerDictionary TriggerDic => new()
+            {
+                { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes--},
+                { SenderTag.AfterHurt,(me,p,s,v)=>
+                {
+                    if (me.TeamIndex!=s.TeamID && s is HurtSender hs && hs.RootSource is AbstractCardSkill)
+                    {
+                        int r=(int)hs.Reaction;
+                        if (r>=8 && r<=10)
+                        {
+                            me.Enemy.Hurt(new(6,1),this);
+                            p.AvailableTimes--;
+                        }
+                    }
+                }
+                }
+            };
         }
     }
 }

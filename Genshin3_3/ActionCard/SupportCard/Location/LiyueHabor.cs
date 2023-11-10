@@ -1,7 +1,7 @@
 ﻿using TCGBase;
 namespace Genshin3_3
 {
-    public class LiyueHarbor : AbstractCardSupport, IDamageSource
+    public class LiyueHarbor : AbstractCardSupport
     {
         public override string NameID => "location_liyuehabor";
         public override SupportTags SupportTag => SupportTags.Place;
@@ -12,6 +12,5 @@ namespace Genshin3_3
         {
             { SenderTag.RoundOver, (me,p,s,v)=>{me.RollCard(2);p.AvailableTimes--; } }
         };
-        public DamageSource DamageSource => DamageSource.Addition;
     }
 }

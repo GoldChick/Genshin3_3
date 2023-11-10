@@ -41,7 +41,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Talent_Ningguang : AbstractCardTalent
+    public class Talent_Ningguang : AbstractCardEquipmentFightActionTalent
     {
         public override CardPersistentTalent Effect => new 储之千日_用之一刻_Effect();
 
@@ -54,16 +54,16 @@ namespace Genshin3_3
         private class 储之千日_用之一刻_Effect : CardPersistentTalent
         {
             public override PersistentTriggerDictionary TriggerDic => new()
-                {
-                    { SenderTag.DamageIncrease,(me,p,s,v)=>
+            {
+                { SenderTag.DamageIncrease,(me,p,s,v)=>
+                    {
+                        if (me.TeamIndex==s.TeamID && me.Effects.Contains(typeof(NingGuang.璇玑屏)) &&  v is DamageVariable dv && dv.Element==5)
                         {
-                            if (me.TeamIndex==s.TeamID && me.Effects.Contains(typeof(NingGuang.璇玑屏)) &&  v is DamageVariable dv && dv.Element==5)
-                            {
-                                dv.Damage++;
-                            }
+                            dv.Damage++;
                         }
                     }
-                };
+                }
+            };
         }
     }
 

@@ -1,52 +1,41 @@
 ﻿using TCGBase;
- 
+
 
 namespace Genshin3_3
 {
-    public class 雷楔 : AbstractCardAction
+    public class 雷楔 : AbstractCardEventTalent
     {
-        public override string NameID => "雷楔";
-
-        public override int[] Costs => new int[] { 0, 0, 0, 0, 1 };
-
-        public override bool CostSame => false;
-
+        public override int[] Costs => new int[] { 0, 0, 0, 0, 3 };
+        public override string CharacterNameID => "keqing";
+        public override string NameID => "talent_keqing_e";
+        public override int Skill => 1;
 
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
-            for (int i = 0; i < me.Characters.Length; i++)
+            var c = me.Characters[targetArgs[0]];
+            me.Game.HandleEvent(new(new(ActionType.SwitchForced, targetArgs[0])), me.TeamIndex);
+            if (c.Alive && me.CurrCharacter == c.Index)
             {
-                if (me.Characters[i].Card.NameID == "keqing")
-                {
-                    if (i != me.CurrCharacter)
-                    {
-                        me.AddPersistent(new 雷楔_Effect());
-                        me.Game.HandleEvent(new(new(ActionType.SwitchForced, i)), me.TeamIndex);
-                    }
-                    break;
-                }
+                me.Game.HandleEvent(new NetEvent(new NetAction(ActionType.UseSKill, 1), Array.Empty<int>(), new int[] { 114, 514 }), me.TeamIndex);
             }
         }
-        public class 雷楔_Effect : AbstractCardPersistentEffect
+        public override bool CanBeUsed(PlayerTeam me, int[] targetArgs)
         {
-            public override int MaxUseTimes => 1;
-
-            public override PersistentTriggerDictionary TriggerDic => new()
-            {
-                { SenderTag.RoundMeStart,(me, p, s, v) => me.Game.HandleEvent(new(new(ActionType.UseSKill, 1)), me.TeamIndex) },
-                { SenderTag.AfterUseSkill, (me, p, s, v) => p.AvailableTimes --}
-            };
+            var c = me.Characters[targetArgs[0]];
+            var card = c.Card;
+            return c.Alive && c.Active && $"{CharacterNamespace ?? Namespace}:{CharacterNameID}".Equals($"{card.Namespace}:{card.NameID}") ;
         }
     }
 
     public class Keqing : AbstractCardCharacter
     {
         public override int MaxMP => 3;
-
-        public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
+        public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
+        {
             new CharacterSimpleA(0,2,4),
-            new XingDouGuiWei(),
-            new TianJieXunYou() };
+            new 星斗归位(),
+            new 天街巡游()
+        };
 
         public override string NameID => "keqing";
 
@@ -54,51 +43,71 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
 
-        public override WeaponCategory WeaponCategory => throw new NotImplementedException();
+        public override WeaponCategory WeaponCategory => WeaponCategory.Sword;
 
-        public class XingDouGuiWei : AbstractCardSkill
+        public class 星斗归位 : AbstractCardSkill
         {
-            public override int[] Costs => new int[] { 0, 0, 0, 0, 1 };
-            public override bool CostSame => false;
-
+            public override int[] Costs => new int[] { 0, 0, 0, 0, 3 };
             public override SkillCategory Category => SkillCategory.E;
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(4, 3, 0), this);
-                if (me is PlayerTeam pt)
+
+                var cih = me.GetCards().Find(p => p.Card is 雷楔);
+                if (targetArgs.Length > 1 || cih != null)
                 {
-                    var cih = pt.CardsInHand.Find(p => p.Card.NameID == "雷楔");
-                    if (cih != null)
-                    {
-                        pt.CardsInHand.Remove(cih);
-                        pt.AddPersistent(new Enchant(4, 2));
-                    }
-                    else if (me.Effects.Contains("雷楔_effect"))
-                    {
-                    }
-                    else
-                    {
-                        pt.GainCard(new 雷楔());
-                    }
+                    me.TryRemoveAllCard(c => c is 雷楔);
+                    me.AddPersistent(new Enchant(4, 2), c.Index);
+                }
+                else
+                {
+                    me.GainCard(new 雷楔());
                 }
             }
         }
-        public class TianJieXunYou : AbstractCardSkill
+        public class 天街巡游 : AbstractCardSkill
         {
-            public override int[] Costs => new int[] { 0, 0, 0, 0, 1 };
-            public override bool CostSame => false;
+            public override int[] Costs => new int[] { 0, 0, 0, 0, 4 };
             public override SkillCategory Category => SkillCategory.Q;
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.MultiHurt(new DamageVariable[]
                 {
-                new(4, 4,  0) ,
+                new(4, 4) ,
                 new(-1, 3,  0, true)
                 }, this);
             }
+        }
+    }
+    public class Talent_Keqing : AbstractCardEquipmentFightActionTalent
+    {
+        public override string CharacterNameID => "keqing";
 
+        public override int Skill => 1;
+
+        public override CardPersistentTalent Effect => new E();
+
+        public override int[] Costs => new int[] { 0, 0, 0, 0, 3 };
+        private class E : CardPersistentTalent
+        {
+            public override int Skill => 1;
+            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
+            {
+                me.Enemy.Hurt(new(4, 3, 0), c.Card.Skills[1]);
+
+                var cih = me.GetCards().Find(p => p.Card is 雷楔);
+                if (targetArgs.Length > 1 || cih != null)
+                {
+                    me.TryRemoveAllCard(c => c is 雷楔);
+                    me.AddPersistent(new Enchant(4, 3, true, 1), c.Index);
+                }
+                else
+                {
+                    me.GainCard(new 雷楔());
+                }
+            }
         }
     }
 }

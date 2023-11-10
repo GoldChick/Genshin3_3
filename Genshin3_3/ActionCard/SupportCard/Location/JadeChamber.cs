@@ -1,12 +1,11 @@
 ﻿using TCGBase;
 namespace Genshin3_3
 {
-    public class JadeChamber : AbstractCardSupport, IDamageSource
+    public class JadeChamber : AbstractCardSupport
     {
         public override string NameID => "location_jadechamber";
         public override SupportTags SupportTag => SupportTags.Place;
         public override int[] Costs => new int[] { 1 };
-        public override bool CostSame => true;
         public override int MaxUseTimes => 1;
         public override bool CustomDesperated => true;
         public override PersistentTriggerDictionary TriggerDic => new()
@@ -22,7 +21,5 @@ namespace Genshin3_3
                 }
             }
         };
-
-        public DamageSource DamageSource => DamageSource.Addition;
     }
 }

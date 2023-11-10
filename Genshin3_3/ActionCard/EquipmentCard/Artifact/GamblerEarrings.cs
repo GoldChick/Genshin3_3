@@ -3,9 +3,9 @@
 
 namespace Genshin3_3
 {
-    public class 赌徒 : AbstractCardArtifact, ITargetSelector
+    public class GamblerEarrings : AbstractCardArtifact, ITargetSelector
     {
-        public override string NameID => "赌徒的耳环";
+        public override string NameID => "artifact_gamblerearrings";
 
         public override int[] Costs => new int[] { 1 };
 
