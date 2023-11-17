@@ -18,7 +18,7 @@ namespace Genshin3_3
         public override CharacterCategory CharacterCategory => CharacterCategory.Mob;
 
         public override string NameID => "hydro";
-        private class 召唤 : AbstractCardSkill, IMultiPersistentProvider<AbstractCardPersistentSummon>
+        private class 召唤 : AbstractCardSkill
         {
             public int PersistentNum { get; }
             public override int[] Costs { get; }
@@ -30,32 +30,14 @@ namespace Genshin3_3
             public override SkillCategory Category => SkillCategory.E;
             public AbstractCardPersistentSummon[] PersistentPool => new AbstractCardPersistentSummon[]
             {
-                new SimpleSummon("genshin3_3","summon_bird",2,1,3),
-                new SimpleSummon("genshin3_3","summon_squirrel",2,2,2),
-                new Frog()
+                //TODO:构造
+                new SimpleSummon("summon_bird",2,1,3),
+                new SimpleSummon("summon_squirrel",2,2,2),
+                new Summon_Hydro_Frog()
             };
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
-            }
-            private class Frog : AbstractCardPersistentSummon
-            {
-                public override string TextureNameID => "summon_frog";
-                public override string TextureNameSpace => "genshin3_3";
-                public override int MaxUseTimes => 2;
-                public override bool CustomDesperated => true;
-                public override PersistentTriggerDictionary TriggerDic => new()
-                {
-                    { SenderTag.HurtDecrease,new PersistentPurpleShield(1)},
-                    { SenderTag.RoundOver,(me,p,s,v)=>
-                    {
-                        if (p.AvailableTimes==0)
-                        {
-                            me.Enemy.Hurt(new(2,2),this);
-                            p.Active=false;
-                        }
-                    }
-                    }
-                };
+                me.AddSummon(PersistentNum, PersistentPool);
             }
         }
         private class 潮涌与激流 : AbstractCardSkill
@@ -70,23 +52,37 @@ namespace Genshin3_3
             }
         }
     }
-    public class Talent_纯水 : AbstractCardEquipmentFightActionTalent
+    public class Summon_Hydro_Frog : AbstractCardPersistentSummon
     {
-        public override CardPersistentTalent Effect => new Talent_E();
+        public override string NameID => "summon_frog";
+        public override int MaxUseTimes => 2;
+        public override bool CustomDesperated => true;
+        public override PersistentTriggerDictionary TriggerDic => new()
+                {
+                    { SenderTag.HurtDecrease,new PersistentPurpleShield(1)},
+                    { SenderTag.RoundOver,(me,p,s,v)=>
+                    {
+                        if (p.AvailableTimes==0)
+                        {
+                            me.Enemy.Hurt(new(2,2),this);
+                            p.Active=false;
+                        }
+                    }
+                    }
+                };
+    }
 
+    public class Talent_纯水 : AbstractCardEquipmentOverrideSkillTalent
+    {
         public override string CharacterNameID => "hydro";
 
         public override int Skill => 3;
 
-        public override int[] Costs => new int[] { 0,0,4};
-        private class Talent_E: CardPersistentTalent
+        public override int[] Costs => new int[] { 0, 0, 4 };
+        public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs)
         {
-            public override int Skill => 3;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                base.AfterUseAction(me, c, targetArgs);
-                me.Summons.Copy().ForEach(p => p.AvailableTimes++);
-            }
+            base.TalentTriggerAction(me, c, targetArgs);
+            me.Summons.Copy().ForEach(p => p.AvailableTimes++);
         }
     }
 

@@ -1,70 +1,70 @@
-﻿using TCGBase;
+﻿//using TCGBase;
 
-namespace Genshin3_3
-{
-    public class YaeMiko : AbstractCardCharacter
-    {
-        public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
-        new CharacterSimpleA(4,1),
-        new CharacterSingleSummonE(new 杀生樱(),4),
-        new 大秘法天胡县镇()
-        };
+//namespace Genshin3_3
+//{
+//    public class YaeMiko : AbstractCardCharacter
+//    {
+//        public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
+//        new CharacterSimpleA(4,1),
+//        new CharacterSingleSummonE(new 杀生樱(),4),
+//        new 大秘法天胡县镇()
+//        };
 
-        public override string NameID => "yaemiko";
+//        public override string NameID => "yaemiko";
 
-        public override ElementCategory CharacterElement => ElementCategory.Electro;
+//        public override ElementCategory CharacterElement => ElementCategory.Electro;
 
-        public override CharacterCategory CharacterCategory => CharacterCategory.Human;
+//        public override CharacterCategory CharacterCategory => CharacterCategory.Human;
 
-        public override CharacterRegion CharacterRegion => CharacterRegion.INAZUMA;
+//        public override CharacterRegion CharacterRegion => CharacterRegion.INAZUMA;
 
-        public override WeaponCategory WeaponCategory => WeaponCategory.Catalyst;
+//        public override WeaponCategory WeaponCategory => WeaponCategory.Catalyst;
 
-        private class 大秘法天胡县镇 : AbstractCardSkill
-        {
-            public override int[] Costs => new int[] { 1 };
+//        private class 大秘法天胡县镇 : AbstractCardSkill
+//        {
+//            public override int[] Costs => new int[] { 1 };
 
-            public override SkillCategory Category => SkillCategory.Q;
+//            public override SkillCategory Category => SkillCategory.Q;
 
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Enemy.Hurt(new DamageVariable(4, 4, 0), this);
-                var s = me.Summons.Find(typeof(杀生樱));
-                if (s != null)
-                {
-                    s.AvailableTimes = 0;
-                    //TODO:二段
-                }
-            }
-        }
+//            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
+//            {
+//                me.Enemy.Hurt(new DamageVariable(4, 4, 0), this);
+//                var s = me.Summons.Find(typeof(杀生樱));
+//                if (s != null)
+//                {
+//                    s.AvailableTimes = 0;
+//                    //TODO:二段
+//                }
+//            }
+//        }
 
-        private class 杀生樱 : AbstractCardPersistentSummon
-        {
-            public override int InitialUseTimes => 3;
-            public override int MaxUseTimes => 6;
-            public override void Update<T>(Persistent<T> persistent)
-            {
-                if (persistent.AvailableTimes < MaxUseTimes)
-                {
-                    persistent.AvailableTimes = int.Min(persistent.AvailableTimes + 3, MaxUseTimes);
-                }
-            }
+//        private class 杀生樱 : AbstractCardPersistentSummon
+//        {
+//            public override int InitialUseTimes => 3;
+//            public override int MaxUseTimes => 6;
+//            public override void Update<T>(Persistent<T> persistent)
+//            {
+//                if (persistent.AvailableTimes < MaxUseTimes)
+//                {
+//                    persistent.AvailableTimes = int.Min(persistent.AvailableTimes + 3, MaxUseTimes);
+//                }
+//            }
 
-            public override PersistentTriggerDictionary TriggerDic => new()
-            {
-                {SenderTag.AfterPass.ToString(),(me,p,s,v)=>
-                {
-                    if (p.AvailableTimes>3 &&s.TeamID==me.TeamIndex)
-                    {
-                        p.AvailableTimes--;
-                        me.Enemy.Hurt(new(4, 1, 0), this);
-                    }}},
-                 { SenderTag.RoundOver.ToString(),(me, p, s, v) => { p.AvailableTimes --; me.Enemy.Hurt(new(4, 1, 0), this); }}
-            };
+//            public override PersistentTriggerDictionary TriggerDic => new()
+//            {
+//                {SenderTag.AfterPass.ToString(),(me,p,s,v)=>
+//                {
+//                    if (p.AvailableTimes>3 &&s.TeamID==me.TeamIndex)
+//                    {
+//                        p.AvailableTimes--;
+//                        me.Enemy.Hurt(new(4, 1, 0), this);
+//                    }}},
+//                 { SenderTag.RoundOver.ToString(),(me, p, s, v) => { p.AvailableTimes --; me.Enemy.Hurt(new(4, 1, 0), this); }}
+//            };
 
-            public override string TextureNameSpace => "genshin3_3";
-            public override string TextureNameID => "summon_yae";
+//            public override string Namespace => "genshin3_3";
+//            public override string NameID => "summon_yae";
 
-        }
-    }
-}
+//        }
+//    }
+//}

@@ -8,7 +8,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleA(0,2,1),
-            new CharacterEffectE(1,3,new 重华叠霜领域(),false),
+            new CharacterEffectE(1,3,new Effect_Chongyun(),false),
             new CharacterSimpleQ(1,7)
         };
         public override ElementCategory CharacterElement => ElementCategory.Cryo;
@@ -18,45 +18,30 @@ namespace Genshin3_3
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
 
         public override string NameID => "chongyun";
-        public class 重华叠霜领域 : AbstractCardPersistentEffect
-        {
-            public override string TextureNameID => PersistentTextures.Enchant_Cryo;
-            public 重华叠霜领域(bool talent = false)
-            {
-                TriggerDic = new()
-                {
-                    { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes--},
-                    { SenderTag.ElementEnchant,new PersistentElementEnchant(1,false,talent?1:0)}
-                };
-            }
-            public override int MaxUseTimes => 2;
 
-            public override PersistentTriggerDictionary TriggerDic { get; }
-        }
     }
-    public class Talent_Chongyun : AbstractCardEquipmentFightActionTalent
+    public class Effect_Chongyun : AbstractCardPersistent
     {
-        public override CardPersistentTalent Effect => new E();
-
-        public override string CharacterNameID => "chongyun";
-
-        public override int Skill => 1;
-
-        public override int[] Costs => new int[] { 0, 3 };
-        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
+        public override string NameID => "effect_chongyun";
+        public Effect_Chongyun(bool talent = false)
         {
-            var p = me.Effects.Find(typeof(Chongyun.重华叠霜领域));
-            if (p != null)
+            Variant = talent ? 1 : 0;
+            TriggerDic = new()
             {
-                p.Active = false;
-            }
-            base.AfterUseAction(me, targetArgs);
+                { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes--},
+                { SenderTag.ElementEnchant,new PersistentElementEnchant(1,false,talent?1:0)}
+            };
         }
-        private class E : CardPersistentTalent
-        {
-            private readonly AbstractCardSkill _skill = new CharacterEffectE(1, 3, new Chongyun.重华叠霜领域(true), false);
-            public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs) => _skill.AfterUseAction(me, c, targetArgs);
-        }
+        public override int MaxUseTimes => 2;
+
+        public override PersistentTriggerDictionary TriggerDic { get; }
+    }
+    public class Talent_Chongyun : AbstractCardEquipmentOverrideSkillTalent
+    {
+        private readonly AbstractCardSkill _skill = new CharacterEffectE(1, 3, new Effect_Chongyun(true), false);
+        public override string CharacterNameID => "chongyun";
+        public override int Skill => 1;
+        public override int[] Costs => new int[] { 0, 3 };
+        public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs) => _skill.AfterUseAction(me, c, targetArgs);
     }
 }

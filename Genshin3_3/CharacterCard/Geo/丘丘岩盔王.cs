@@ -23,62 +23,55 @@ namespace Genshin3_3
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
-                me.AddPersistent(new 岩盔(), c.Index);
+                me.AddPersistent(new Effect_QQ_DEF(), c.Index);
             }
         }
-        public class 岩盔 : AbstractCardPersistentEffect
-        {
-            public override int MaxUseTimes => 3;
-
-            public override PersistentTriggerDictionary TriggerDic => new()
-                {
-                    {SenderTag.HurtDecrease,new PersistentPurpleShield(1) },
-                    {SenderTag.RoundStart,(me, p, s, v) => me.AddPersistent(new 坚岩之力(), p.PersistentRegion, p)}
-                };
-            public override string TextureNameID => PersistentTextures.Shield_Purple;
-        }
-        public class 坚岩之力 : AbstractCardPersistentEffect
-        {
-            public override string TextureNameID => PersistentTextures.Atk_Up;
-            public override int MaxUseTimes => 1;
-            public override PersistentTriggerDictionary TriggerDic => new()
-                {
-                    { SenderTag.ElementEnchant,(me,p,s,v)=>
-                        {
-                            if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
-                            {
-                                dv.Element=5;
-                                dv.Damage++;
-                                p.AvailableTimes--;
-                            }
-                        }
-                    }
-                };
-        }
     }
-    public class Talent_丘丘岩盔王 : AbstractCardEquipmentFightActionTalent
+    public class Effect_QQ_DEF : AbstractCardPersistent
+    {
+        public override int MaxUseTimes => 3;
+
+        public override PersistentTriggerDictionary TriggerDic => new()
+        {
+            {SenderTag.HurtDecrease,new PersistentPurpleShield(1) },
+            {SenderTag.RoundStart,(me, p, s, v) => me.AddPersistent(new Effect_QQ_ATK(), p.PersistentRegion, p)}
+        };
+    }
+    public class Effect_QQ_ATK : AbstractCardPersistent
+    {
+        public override int MaxUseTimes => 1;
+        public override PersistentTriggerDictionary TriggerDic => new()
+        {
+            { SenderTag.ElementEnchant,(me,p,s,v)=>
+                {
+                    if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
+                    {
+                        dv.Element=5;
+                        dv.Damage++;
+                        p.AvailableTimes--;
+                    }
+                }
+            }
+        };
+    }
+    public class Talent_丘丘岩盔王 : AbstractCardEquipmentOverrideSkillTalent
     {
         public override string CharacterNameID => "qq";
 
         public override int Skill => 2;
 
-        public override CardPersistentTalent Effect => new E();
-
         public override int[] Costs => new int[] { 0, 0, 0, 0, 0, 4 };
-        public class E : CardPersistentTalent
+        public override PersistentTriggerDictionary TriggerDic => new()
         {
-            public override PersistentTriggerDictionary TriggerDic => new()
-            {
-                { SenderTag.Die,(me,p,s,v)=>
+            { SenderTag.Die,(me,p,s,v)=>
+                {
+                    if (me.TeamIndex!=s.TeamID)
                     {
-                        if (me.TeamIndex!=s.TeamID)
-                        {
-                            me.AddPersistent(new 丘丘岩盔王.岩盔(), p.PersistentRegion);
-                            me.AddPersistent(new 丘丘岩盔王.坚岩之力(), p.PersistentRegion, me.Characters[p.PersistentRegion].Effects.Find(typeof(丘丘岩盔王.岩盔)));
-                        }
+                        me.AddPersistent(new Effect_QQ_DEF(), p.PersistentRegion);
+                        me.AddPersistent(new Effect_QQ_ATK(), p.PersistentRegion, me.Characters[p.PersistentRegion].Effects.Find(typeof(Effect_QQ_DEF)));
                     }
                 }
-            };
-        }
+            }
+        };
     }
 }

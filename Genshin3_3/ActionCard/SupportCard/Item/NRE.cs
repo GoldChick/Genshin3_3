@@ -12,16 +12,16 @@ namespace Genshin3_3
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             base.AfterUseAction(me, targetArgs);
-            me.RollCard(typeof(AbstractCardFood));
+            me.RollCard(typeof(ICardFood));
         }
         public override PersistentTriggerDictionary TriggerDic => new()
         {
             { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes=1},
             { SenderTag.AfterUseCard,(me,p,s,v)=>
             {
-                if (s is AfterUseCardSender ucs && ucs.Card is AbstractCardFood)
+                if (s is AfterUseCardSender ucs && ucs.Card is ICardFood)
                 {
-                    me.RollCard(typeof(AbstractCardFood));
+                    me.RollCard(typeof(ICardFood));
                     p.AvailableTimes--;
                 }
             }}

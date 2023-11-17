@@ -101,27 +101,24 @@ namespace Genshin3_3
             consumer.Accept(new Diona());
             consumer.Accept(new Chongyun());
             consumer.Accept(new Ganyu());
-            consumer.Accept(new Qiqi());
             consumer.Accept(new Ayaka());
 
             consumer.Accept(new Mona());
             consumer.Accept(new 纯水());
 
             consumer.Accept(new Bennett());
-            consumer.Accept(new XiangLing());
+            consumer.Accept(new Xiangling());
             consumer.Accept(new Yoimiya());
             consumer.Accept(new 讨债哥());
 
             consumer.Accept(new Fischl());
             consumer.Accept(new Keqing());
-            consumer.Accept(new YaeMiko());
 
-            consumer.Accept(new NingGuang());
+            consumer.Accept(new Ningguang());
             consumer.Accept(new 丘丘岩盔王());
             consumer.Accept(new Noel());
 
             consumer.Accept(new Collei());
-            consumer.Accept(new Nahida());
 
             consumer.Accept(new Sucrose());
         }
@@ -138,7 +135,7 @@ namespace Genshin3_3
             consumer.Accept(new Talent_Bennett());
             consumer.Accept(new Talent_XiangLing());
             consumer.Accept(new Talent_Yoimiya());
-            consumer.Accept(new Talent_讨债哥());
+            consumer.Accept(new Talent_Debt());
 
             consumer.Accept(new Talent_Fischl());
 

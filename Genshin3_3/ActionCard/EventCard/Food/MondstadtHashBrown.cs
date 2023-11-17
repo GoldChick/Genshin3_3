@@ -4,7 +4,7 @@ namespace Genshin3_3
 {
     public class MondstadtHashBrown : SingleCharacterFood
     {
-        public override AbstractCardPersistentEffect? AfterEatEffect => null;
+        public override AbstractCardPersistent? AfterEatEffect => null;
         
         public override int[] Costs => Array.Empty<int>();
 

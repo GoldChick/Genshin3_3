@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleA(0,2,4),
-            new CharacterSingleSummonE(4,1,new SimpleSummon("genshin3_3","summon_fischl",4,1,2)),
+            new CharacterSingleSummonE(4,1,new Summon_Fischl()),
             new 至夜幻现()
         };
         public override int MaxMP => 3;
@@ -30,52 +30,40 @@ namespace Genshin3_3
             }
         }
     }
-    public class Talent_Fischl : AbstractCardEquipmentFightActionTalent
+    public class Summon_Fischl : AbstractCardPersistentSummon
+    {
+        public Summon_Fischl(bool talent = false)
+        {
+            Variant = talent ? 1 : 0;
+            TriggerDic = new()
+            {
+                { SenderTag.RoundOver,(me,p,s,v)=>{me.Enemy.Hurt(new(4,1),this); p.AvailableTimes--; } },
+                { SenderTag.AfterUseSkill,(me,p,s,v)=>
+                    {
+                        if (me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && me.Characters[ss.CharIndex].Card is Fischl && ss.Skill.Category==SkillCategory.A)
+                        {
+                            me.Enemy.Hurt(new(4,2),this);
+                            p.AvailableTimes--;
+                        }
+                    }
+                }
+            };
+        }
+        public override int MaxUseTimes => 2;
+
+        public override PersistentTriggerDictionary TriggerDic { get; }
+
+        public override string NameID => "summon_fischl";
+    }
+
+    public class Talent_Fischl : AbstractCardEquipmentOverrideSkillTalent
     {
         public override string CharacterNameID => "fischl";
 
         public override int Skill => 1;
 
-        public override CardPersistentTalent Effect => new E();
-
         public override int[] Costs => new int[] { 0, 0, 0, 0, 3 };
-        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
-        {
-            me.Summons.TryRemove("summon_fischl");
-            base.AfterUseAction(me, targetArgs);
-        }
-        private class E : CardPersistentTalent
-        {
-            public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Enemy.Hurt(new(4, 1), c.Card.Skills[1], () => me.TryAddSummon(new 特殊奥兹(c.Index)));
-            }
-            private class 特殊奥兹 : AbstractCardPersistentSummon
-            {
-                public override string TextureNameSpace => "genshin3_3";
-                public override string TextureNameID => "summon_fischl";
-                private int _fischl;
-                public 特殊奥兹(int fischl)
-                {
-                    _fischl = fischl;
-                }
-                public override int MaxUseTimes => 2;
 
-                public override PersistentTriggerDictionary TriggerDic => new()
-                {
-                    { SenderTag.RoundOver,(me,p,s,v)=>{me.Enemy.Hurt(new(4,1),this); p.AvailableTimes--; } },
-                    { SenderTag.AfterUseSkill,(me,p,s,v)=>
-                        {
-                            if (me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && ss.CharIndex==_fischl && ss.Skill.Category==SkillCategory.A)
-                            {
-                                me.Enemy.Hurt(new(4,2),this);
-                                p.AvailableTimes--;
-                            }
-                        }
-                    }
-                };
-            }
-        }
+        public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs) => me.Enemy.Hurt(new(4, 1), c.Card.Skills[1], () => me.AddSummon(new Summon_Fischl(true)));
     }
 }

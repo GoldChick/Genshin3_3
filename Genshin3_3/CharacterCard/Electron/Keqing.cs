@@ -3,7 +3,7 @@
 
 namespace Genshin3_3
 {
-    public class 雷楔 : AbstractCardEventTalent
+    public class Talent_Special_Keqing : AbstractCardEventTalent
     {
         public override int[] Costs => new int[] { 0, 0, 0, 0, 3 };
         public override string CharacterNameID => "keqing";
@@ -23,7 +23,7 @@ namespace Genshin3_3
         {
             var c = me.Characters[targetArgs[0]];
             var card = c.Card;
-            return c.Alive && c.Active && $"{CharacterNamespace ?? Namespace}:{CharacterNameID}".Equals($"{card.Namespace}:{card.NameID}") ;
+            return c.Alive && c.Active && $"{CharacterNamespace ?? Namespace}:{CharacterNameID}".Equals($"{card.Namespace}:{card.NameID}");
         }
     }
 
@@ -54,15 +54,14 @@ namespace Genshin3_3
             {
                 me.Enemy.Hurt(new(4, 3, 0), this);
 
-                var cih = me.GetCards().Find(p => p.Card is 雷楔);
-                if (targetArgs.Length > 1 || cih != null)
+                if (me.GetCards().Any(p => p is Talent_Special_Keqing))
                 {
-                    me.TryRemoveAllCard(c => c is 雷楔);
-                    me.AddPersistent(new Enchant(4, 2), c.Index);
+                    me.TryRemoveAllCard(c => c is Talent_Special_Keqing);
+                    me.AddPersistent(new Effect_Keqing(), c.Index);
                 }
                 else
                 {
-                    me.GainCard(new 雷楔());
+                    me.GainCard(new Talent_Special_Keqing());
                 }
             }
         }
@@ -81,32 +80,43 @@ namespace Genshin3_3
             }
         }
     }
-    public class Talent_Keqing : AbstractCardEquipmentFightActionTalent
+    public class Effect_Keqing : AbstractCardPersistent
+    {
+        public Effect_Keqing(bool talent = false)
+        {
+            MaxUseTimes = talent ? 3 : 2;
+            Variant = talent ? 1 : 0;
+            TriggerDic = new()
+            {
+                { SenderTag.RoundOver,(me,p,s,v)=>p.AvailableTimes--},
+                { SenderTag.ElementEnchant,new PersistentElementEnchant(4,true,talent?1:0)}
+            };
+        }
+        public override int MaxUseTimes { get; }
+
+        public override PersistentTriggerDictionary TriggerDic { get; }
+    }
+
+    public class Talent_Keqing : AbstractCardEquipmentOverrideSkillTalent
     {
         public override string CharacterNameID => "keqing";
 
         public override int Skill => 1;
 
-        public override CardPersistentTalent Effect => new E();
-
         public override int[] Costs => new int[] { 0, 0, 0, 0, 3 };
-        private class E : CardPersistentTalent
-        {
-            public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Enemy.Hurt(new(4, 3, 0), c.Card.Skills[1]);
 
-                var cih = me.GetCards().Find(p => p.Card is 雷楔);
-                if (targetArgs.Length > 1 || cih != null)
-                {
-                    me.TryRemoveAllCard(c => c is 雷楔);
-                    me.AddPersistent(new Enchant(4, 3, true, 1), c.Index);
-                }
-                else
-                {
-                    me.GainCard(new 雷楔());
-                }
+        public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs)
+        {
+            me.Enemy.Hurt(new(4, 3, 0), c.Card.Skills[1]);
+
+            if (me.GetCards().Any(p => p is Talent_Special_Keqing))
+            {
+                me.TryRemoveAllCard(c => c is Talent_Special_Keqing);
+                me.AddPersistent(new Effect_Keqing(true), c.Index);
+            }
+            else
+            {
+                me.GainCard(new Talent_Special_Keqing());
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,3),
             new E(),
-            new CharacterEffectQ(3,3,new QEffect(),false)
+            new CharacterEffectQ(3,3,new Effect_Yoimiya_Q(),false)
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Pyro;
@@ -26,13 +26,14 @@ namespace Genshin3_3
             public override bool GiveMP => false;
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
-                me.AddPersistent(new 点燃(2), c.Index);
+                me.AddPersistent(new Effect_Yoimiya_E(2), c.Index);
             }
-            public class 点燃 : AbstractCardPersistentEffect
-            {
-                public override string TextureNameID => PersistentTextures.Atk_Up_Pyro;
-                public override int MaxUseTimes { get; }
-                public override PersistentTriggerDictionary TriggerDic => new()
+        }
+    }
+    public class Effect_Yoimiya_E : AbstractCardPersistent
+    {
+        public override int MaxUseTimes { get; }
+        public override PersistentTriggerDictionary TriggerDic => new()
                 {
                     { SenderTag.ElementEnchant,(me,p,s,v)=>
                         {
@@ -47,63 +48,47 @@ namespace Genshin3_3
                         }
                     }
                 };
-                public 点燃(int maxusetimes)
-                {
-                    MaxUseTimes = maxusetimes;
-                    TriggerDic.Add(SenderTag.AfterUseSkill, (me, p, s, v) =>
-                    {
-                        if (me.TeamIndex == s.TeamID && s is AfterUseSkillSender uss && uss.CharIndex == p.PersistentRegion && uss.Skill.Category == SkillCategory.A)
-                        {
-                            if (maxusetimes == 3)
-                            {
-                                me.Enemy.Hurt(new(3, 1), this);
-                            }
-                            p.AvailableTimes--;
-                        }
-                    });
-                }
-            }
-        }
-        private class QEffect : AbstractCardPersistentEffect
+        public Effect_Yoimiya_E(int maxusetimes)
         {
-            public override int MaxUseTimes => 2;
-            public override PersistentTriggerDictionary TriggerDic => new()
+            Variant = maxusetimes - 2;
+            MaxUseTimes = maxusetimes;
+            TriggerDic.Add(SenderTag.AfterUseSkill, (me, p, s, v) =>
             {
-                { SenderTag.RoundStart.ToString(),(me, p, s, v) => p.AvailableTimes --},
-                { SenderTag.AfterUseSkill.ToString(),(me, p, s, v) =>
+                if (me.TeamIndex == s.TeamID && s is AfterUseSkillSender uss && uss.CharIndex == p.PersistentRegion && uss.Skill.Category == SkillCategory.A)
                 {
-                    if(s is AfterUseSkillSender usks && usks.Skill.Category == SkillCategory.A)
+                    if (maxusetimes == 3)
                     {
-                        me.Enemy.Hurt(new(3, 1, 0), this);
+                        me.Enemy.Hurt(new(3, 1), this);
                     }
-                }}
-            };
-            public override string TextureNameSpace => "Genshin3_3";
-            public override string TextureNameID => "effect_yoimiya";
+                    p.AvailableTimes--;
+                }
+            });
         }
     }
-    public class Talent_Yoimiya : AbstractCardEquipmentFightActionTalent
+    public class Effect_Yoimiya_Q : AbstractCardPersistent
     {
-        public override CardPersistentTalent Effect => new Talent_E();
+        public override int MaxUseTimes => 2;
+        public override PersistentTriggerDictionary TriggerDic => new()
+        {
+            { SenderTag.RoundStart.ToString(),(me, p, s, v) => p.AvailableTimes --},
+            { SenderTag.AfterUseSkill.ToString(),(me, p, s, v) =>
+            {
+                if(s is AfterUseSkillSender usks && usks.Skill.Category == SkillCategory.A)
+                {
+                    me.Enemy.Hurt(new(3, 1, 0), this);
+                }
+            }}
+        };
+    }
 
+    public class Talent_Yoimiya : AbstractCardEquipmentOverrideSkillTalent
+    {
         public override string CharacterNameID => "yoimiya";
 
         public override int Skill => 1;
 
         public override int[] Costs => new int[] { 0, 0, 0, 2 };
 
-        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
-        {
-            me.Effects.TryRemove(typeof(Yoimiya.E.点燃));
-            base.AfterUseAction(me, targetArgs);
-        }
-        private class Talent_E : CardPersistentTalent
-        {
-            public override int Skill => 1;
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.AddPersistent(new Yoimiya.E.点燃(3), c.Index);
-            }
-        }
+        public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs) => me.AddPersistent(new Effect_Yoimiya_E(3), c.Index);
     }
 }

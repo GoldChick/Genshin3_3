@@ -5,7 +5,7 @@ namespace Genshin3_3
     {
         public override string NameID => "location_jadechamber";
         public override SupportTags SupportTag => SupportTags.Place;
-        public override int[] Costs => new int[] { 1 };
+        public override int[] Costs => new int[] { 0 };
         public override int MaxUseTimes => 1;
         public override bool CustomDesperated => true;
         public override PersistentTriggerDictionary TriggerDic => new()

@@ -4,7 +4,7 @@ namespace Genshin3_3
 {
     public class SweetChicken : SingleCharacterFood
     {
-        public override AbstractCardPersistentEffect? AfterEatEffect => null;
+        public override AbstractCardPersistent? AfterEatEffect => null;
         public override int[] Costs => Array.Empty<int>();
         public override string NameID => "food_sweetchicken";
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
