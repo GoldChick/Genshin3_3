@@ -30,9 +30,8 @@ namespace Genshin3_3
             public override SkillCategory Category => SkillCategory.E;
             public AbstractCardPersistentSummon[] PersistentPool => new AbstractCardPersistentSummon[]
             {
-                //TODO:构造
-                new SimpleSummon("summon_bird",2,1,3),
-                new SimpleSummon("summon_squirrel",2,2,2),
+                new Summon_Hydro_Bird(),
+                new Summon_Hydro_Squirrel(),
                 new Summon_Hydro_Frog()
             };
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
@@ -51,10 +50,21 @@ namespace Genshin3_3
                 me.Enemy.Hurt(new(2, 4 + me.Summons.Count), this);
             }
         }
+        public class Summon_Hydro_Squirrel : AbstractSimpleSummon
+        {
+            public Summon_Hydro_Squirrel() : base(2, 2, 2)
+            {
+            }
+        }
+    }
+    public class Summon_Hydro_Bird : AbstractSimpleSummon
+    {
+        public Summon_Hydro_Bird() : base(2, 1, 3)
+        {
+        }
     }
     public class Summon_Hydro_Frog : AbstractCardPersistentSummon
     {
-        public override string NameID => "summon_frog";
         public override int MaxUseTimes => 2;
         public override bool CustomDesperated => true;
         public override PersistentTriggerDictionary TriggerDic => new()

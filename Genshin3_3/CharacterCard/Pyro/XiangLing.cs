@@ -4,11 +4,10 @@ namespace Genshin3_3
 {
     public class Xiangling : AbstractCardCharacter
     {
-        public static readonly AbstractCardPersistentSummon Summon_Xiangling = new SimpleSummon("summon_xiangling", 3, 2, 2);
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
         new CharacterSimpleA(0,2,3),
-        new CharacterSingleSummonE(Summon_Xiangling,3),
+        new CharacterSingleSummonE(new Summon_Xiangling(),3),
         new CharacterEffectQ(3,3,new Effect_Xiangling(),false,3,4)
         };
 
@@ -20,6 +19,13 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
     }
+    public class Summon_Xiangling : AbstractSimpleSummon
+    {
+        public Summon_Xiangling() : base(3, 2, 2)
+        {
+        }
+    }
+
     public class Effect_Xiangling : AbstractCardPersistent
     {
         public override int MaxUseTimes => 2;

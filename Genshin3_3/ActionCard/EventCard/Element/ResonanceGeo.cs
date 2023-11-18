@@ -19,7 +19,7 @@ namespace Genshin3_3
                 if (me.TeamIndex!=s.TeamID && s is HurtSender hs && hs.DirectSource is DamageSource.Character && hs.Element==5)
                 {
                     //TODO:岩共鸣
-                    //var shield=me.Effects.Find("minecraft",PersistentTextures.Shield_Yellow);
+                    //var shield=me.Effects.Copy().Any(e=>e.Card.TriggerDic.Any(kvp=>kvp.Value is PersistentYellowShield)).Find("minecraft",PersistentTextures.Shield_Yellow);
                     //if (shield!=null && shield.Active)
                     //{
                     //    shield.AvailableTimes+=3;

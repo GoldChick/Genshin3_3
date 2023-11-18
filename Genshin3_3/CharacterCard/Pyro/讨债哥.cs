@@ -66,11 +66,6 @@ namespace Genshin3_3
         public override string CharacterNameID => "debt";
         public override int Skill => 1;
         public override int[] Costs => new int[] { 0, 0, 0, 3 };
-        public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
-        {
-            me.Effects.TryRemove(typeof(Effect_Debt));
-            base.AfterUseAction(me, targetArgs);
-        }
         public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs)
         {
             me.Enemy.Hurt(new(3, 1), c.Card.Skills[1], () => me.AddPersistent(new Effect_Debt(true), c.Index));

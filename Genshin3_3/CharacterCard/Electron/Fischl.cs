@@ -38,16 +38,18 @@ namespace Genshin3_3
             TriggerDic = new()
             {
                 { SenderTag.RoundOver,(me,p,s,v)=>{me.Enemy.Hurt(new(4,1),this); p.AvailableTimes--; } },
-                { SenderTag.AfterUseSkill,(me,p,s,v)=>
-                    {
-                        if (me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && me.Characters[ss.CharIndex].Card is Fischl && ss.Skill.Category==SkillCategory.A)
-                        {
-                            me.Enemy.Hurt(new(4,2),this);
-                            p.AvailableTimes--;
-                        }
-                    }
-                }
             };
+            if (talent)
+            {
+                TriggerDic.Add(SenderTag.AfterUseSkill, (me, p, s, v) =>
+                {
+                    if (me.TeamIndex == s.TeamID && s is AfterUseSkillSender ss && me.Characters[ss.CharIndex].Card is Fischl && ss.Skill.Category == SkillCategory.A)
+                    {
+                        me.Enemy.Hurt(new(4, 2), this);
+                        p.AvailableTimes--;
+                    }
+                });
+            }
         }
         public override int MaxUseTimes => 2;
 

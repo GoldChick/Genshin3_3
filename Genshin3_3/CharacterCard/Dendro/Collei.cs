@@ -8,7 +8,7 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,6),
             new CharacterSimpleE(6,3),
-            new CharacterSingleSummonQ(6,2, Summon_Collei)
+            new CharacterSingleSummonQ(6,2,new Summon_Collei())
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Dendro;
@@ -18,8 +18,12 @@ namespace Genshin3_3
         public override CharacterRegion CharacterRegion => CharacterRegion.SUMERU;
 
         public override string NameID => "collei";
-
-        public static readonly AbstractCardPersistentSummon Summon_Collei = new SimpleSummon("summon_collei", 6, 2, 2);
+    }
+    public class Summon_Collei : AbstractSimpleSummon
+    {
+        public Summon_Collei() : base(6, 2, 2)
+        {
+        }
     }
 
     public class Talent_Collei : AbstractCardEquipmentOverrideSkillTalent

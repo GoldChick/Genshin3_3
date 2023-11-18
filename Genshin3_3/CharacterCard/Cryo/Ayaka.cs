@@ -5,12 +5,11 @@ namespace Genshin3_3
 {
     public class Ayaka : AbstractCardCharacter
     {
-        public static readonly AbstractCardPersistentSummon Summon_Ayaka = new SimpleSummon("summon_ayaka", 1, 2, 2);
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleA(0,2,1),
             new CharacterSimpleE(1,3),
-            new CharacterSingleSummonQ(1,4,Summon_Ayaka),
+            new CharacterSingleSummonQ(1,4,new Summon_Ayaka()),
             new 神里流霰步(),
         };
 
@@ -36,6 +35,13 @@ namespace Genshin3_3
             }
         }
     }
+    public class Summon_Ayaka : AbstractSimpleSummon
+    {
+        public Summon_Ayaka() : base(1, 2, 2)
+        {
+        }
+    }
+
     public class Effect_Ayaka : AbstractCardPersistent
     {
         public Effect_Ayaka(bool talent = false)
@@ -59,7 +65,7 @@ namespace Genshin3_3
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             //TODO:被动如何处理
-            me.Characters[targetArgs[0]].Effects.TryRemove("equipment", "passive_genshin3_3_ayaka");
+            //me.Characters[targetArgs[0]].Effects.TryRemove("equipment", "passive_genshin3_3_ayaka");
             base.AfterUseAction(me, targetArgs);
         }
         public override int MaxUseTimes => 1;
