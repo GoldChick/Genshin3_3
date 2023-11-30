@@ -5,11 +5,11 @@ namespace Genshin3_7
     public class Nahida : AbstractCardCharacter
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
-        new CharacterSimpleA(6,1),
-        new CharacterEffectE(6,2,new Effect_Nahida_E()),
-        new BigE(),
-        new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Dendro(3).MP(2).ToCostInit(),
-            (skill,me,c,args)=>me.AddPersistent(new Effect_Nahida_Q()),new DamageVariable(6,4)),
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Dendro(1).ToCostInit(),new DamageVariable(6,1)),
+            new CharacterEffectE(6,2,new Effect_Nahida_E()),
+            new BigE(),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Dendro(3).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Nahida_Q()),new DamageVariable(6,4)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Dendro;

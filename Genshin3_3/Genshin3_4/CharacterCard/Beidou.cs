@@ -7,9 +7,11 @@ namespace Genshin3_4
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-            new CharacterSimpleA(0,2,4),
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Electro(1).ToCostInit(),new DamageVariable(0,2)),
             new CharacterEffectE(new Effect_Beidou_E()),
-            new CharacterEffectQ(4,2,new Effect_Beidou_Q(),false),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Electro(3).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Beidou_Q())
+                ,new DamageVariable(4,2)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Electro;

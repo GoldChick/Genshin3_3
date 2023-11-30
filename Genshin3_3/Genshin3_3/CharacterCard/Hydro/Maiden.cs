@@ -6,7 +6,7 @@ namespace Genshin3_3
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-            new CharacterSimpleA(2,1),
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(2,1)),
             new E(),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),new DamageVariable(2,5))
         };

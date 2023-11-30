@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TCGBase;
+﻿using TCGBase;
 
 namespace Genshin3_7
 {
@@ -11,7 +6,7 @@ namespace Genshin3_7
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-            new CharacterSimpleA(0,2,3),
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Pyro(1).ToCostInit(),new DamageVariable(0,2)),
             new CharacterSingleSummonE(new Summon_Amber(),3),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(3).MP(2).ToCostInit(),new DamageVariable(3,2), new(-1, 2, 0, true)),
         };

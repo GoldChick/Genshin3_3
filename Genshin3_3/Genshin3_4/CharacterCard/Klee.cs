@@ -5,7 +5,7 @@ namespace Genshin3_4
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-            new CharacterSimpleA(3,1),
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Pyro(1).ToCostInit(),new DamageVariable(3,1)),
             new CharacterEffectE(3,3,new Effect_Klee_E()),
             new Q()
         };
@@ -17,7 +17,7 @@ namespace Genshin3_4
         private class Q : AbstractCardSkill
         {
             public override SkillCategory Category => SkillCategory.Q;
-            public override CostInit Cost => new CostCreate().Pyro(3).MP(2).ToCostInit();
+            public override CostInit Cost => new CostCreate().Pyro(3).MP(3).ToCostInit();
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
             {

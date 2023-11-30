@@ -6,14 +6,12 @@ namespace Genshin3_3
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-            new CharacterSimpleA(0,2,2),
-            
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(0,2)),
             new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Hydro(3).ToCostInit(),(skill,me,c,args) =>
                 {
                     me.AttachElement(skill, 2,  c.Index-me.CurrCharacter);
                     me.AddPersistent(new Effect_Xingqiu_E(false));
                 }, new DamageVariable(2, 2)),
-
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),(skill,me,c,args) =>
                 {
                     me.AttachElement(skill, 2, c.Index-me.CurrCharacter);

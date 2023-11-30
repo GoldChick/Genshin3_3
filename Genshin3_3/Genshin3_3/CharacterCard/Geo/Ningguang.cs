@@ -7,9 +7,9 @@ namespace Genshin3_3
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
-         new CharacterSimpleA(5,1),
-         new CharacterEffectE(5,2,new Effect_Ningguang(),false),
-         new 天权崩玉()
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Geo(1).ToCostInit(),new DamageVariable(5,1)),
+            new CharacterEffectE(5,2,new Effect_Ningguang(),false),
+            new 天权崩玉()
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Geo;

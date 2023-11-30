@@ -9,7 +9,7 @@ namespace Genshin3_3
     {
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
-            new CharacterSimpleA(0,2,1),
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Cryo(1).ToCostInit(),new DamageVariable(0,2)),
             new CharacterEffectE(1,1,new Effect_Ganyu(),false),
             new CharacterSimpleSkill
             (

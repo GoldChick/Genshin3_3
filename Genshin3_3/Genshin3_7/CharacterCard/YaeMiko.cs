@@ -5,9 +5,9 @@ namespace Genshin3_7
     public class Yae : AbstractCardCharacter
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
-        new CharacterSimpleA(4,1),
-        new CharacterSingleSummonE(new Summon_Yae(),4),
-        new Q()
+            new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Electro(1).ToCostInit(),new DamageVariable(4,1)),
+            new CharacterSingleSummonE(new Summon_Yae(),4),
+            new Q()
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Electro;
