@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(2,1),
             new CharacterSingleSummonE(2,1,new Summon_Barbara()),
-            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(3).ToCostInit(),(skill,me,p,ts)=>me.Heal(skill, new(4), new(4, 0, true)))
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(3).ToCostInit(),
+                (skill,me,p,ts)=>me.Heal(skill, new(4), new(4, 0, true)))
         };
         public override int MaxMP => 3;
         public override ElementCategory CharacterElement => ElementCategory.Hydro;

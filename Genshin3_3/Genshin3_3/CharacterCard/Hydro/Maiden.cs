@@ -8,7 +8,7 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(2,1),
             new E(),
-            new CharacterSimpleQ(2,5)
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),new DamageVariable(2,5))
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Hydro;

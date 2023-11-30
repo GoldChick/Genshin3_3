@@ -1,4 +1,5 @@
-﻿using TCGBase;
+﻿using Genshin3_5;
+using TCGBase;
 
 namespace Genshin3_6
 {
@@ -8,7 +9,8 @@ namespace Genshin3_6
         {
             new CharacterSimpleA(0,2,5),
             new E(),
-            new CharacterEffectQ(5,4,new Effect_Itto_Q())
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Geo(3).MP(3).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Itto_Q(),c.Index),new DamageVariable(5,4)),
         };
         public override int MaxMP => 3;
         public override ElementCategory CharacterElement => ElementCategory.Geo;

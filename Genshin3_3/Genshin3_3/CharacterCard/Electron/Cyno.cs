@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,4),
             new CharacterSimpleE(4,3),
-            new CharacterEffectQ(4,4,new Effect_Cyno_Passive(),true,4,4),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Electro(4).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Cyno_Passive(),c.Index),new DamageVariable(4,4)),
             new Effect_Cyno_Passive()
         };
 

@@ -13,7 +13,7 @@ namespace Genshin3_7
         {
             new CharacterSimpleA(0,2,3),
             new CharacterSingleSummonE(new Summon_Amber(),3),
-            new Q()
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(3).MP(2).ToCostInit(),new DamageVariable(3,2), new(-1, 2, 0, true)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Pyro;
@@ -21,17 +21,6 @@ namespace Genshin3_7
         public override WeaponCategory WeaponCategory => WeaponCategory.Bow;
 
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
-        public class Q : AbstractCardSkill
-        {
-            public override CostInit Cost => new CostCreate().Pyro(3).ToCostInit();
-
-            public override SkillCategory Category => SkillCategory.Q;
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Enemy.MultiHurt(new DamageVariable[] { new(3, 2), new(-1, 2, 0, true) }, this);
-            }
-        }
     }
     public class Summon_Amber : AbstractCardPersistentSummon
     {

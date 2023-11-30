@@ -18,7 +18,9 @@ namespace Genshin3_3
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Ganyu_Counter(), c.Index),
                 new DamageVariable(1, 2), new DamageVariable(-1, 2, 0, true)
             ),
-            new CharacterSingleSummonQ(1,2,new Summon_Ganyu()),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(3).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_Ganyu()),
+                new DamageVariable(1,2),new DamageVariable(-1,1,0,true)),
         };
         public override ElementCategory CharacterElement => ElementCategory.Cryo;
 

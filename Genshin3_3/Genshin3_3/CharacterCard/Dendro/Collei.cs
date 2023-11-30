@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,6),
             new CharacterSimpleE(6,3),
-            new CharacterSingleSummonQ(6,2,new Summon_Collei())
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Dendro(3).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_Collei()),new DamageVariable(6,2))
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Dendro;

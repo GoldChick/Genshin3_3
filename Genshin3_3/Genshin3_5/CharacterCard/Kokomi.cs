@@ -7,7 +7,8 @@ namespace Genshin3_5
         {
             new CharacterSimpleA(2,1),
             new E(),
-            new CharacterEffectQ(2,2,new Effect_Kokomi())
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Kokomi(),c.Index),new DamageVariable(2,2)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Hydro;

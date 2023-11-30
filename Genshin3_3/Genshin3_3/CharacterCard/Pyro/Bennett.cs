@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
         new CharacterSimpleA(0,2,3),
         new CharacterSimpleE(3,3),
-        new CharacterEffectQ(3,2,new Effect_Bennett(),false,3,4)
+        new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(4).MP(2).ToCostInit(),
+            (skill,me,c,args)=>me.AddPersistent(new Effect_Bennett()),new DamageVariable(3,2)),
         };
 
         public override string NameID => "bennett";

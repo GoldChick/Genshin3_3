@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
         new CharacterSimpleA(0,2,3),
         new CharacterSingleSummonE(new Summon_Xiangling(),3),
-        new CharacterEffectQ(3,3,new Effect_Xiangling(),false,3,4)
+        new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(4).MP(2).ToCostInit(),
+            (skill,me,c,args)=>me.AddPersistent(new Effect_Xiangling()),new DamageVariable(3,3)),
         };
 
         public override string NameID => "xiangling";

@@ -8,7 +8,8 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleA(0,2,3),
-            new CharacterEffectQ(3,8,new Effect_Diluc(),true,3,4)
+            new E(),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(4).MP(3).ToCostInit(),new DamageVariable(3,8)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Pyro;

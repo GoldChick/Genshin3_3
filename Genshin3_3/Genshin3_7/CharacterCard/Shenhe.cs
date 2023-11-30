@@ -8,7 +8,8 @@ namespace Genshin3_7
         {
             new CharacterSimpleA(0,2,1),
             new CharacterEffectE(1,2,new Effect_Shenhe(),false),
-            new CharacterSingleSummonQ(1,1,new Summon_Shenhe())
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_Shenhe()),new DamageVariable(1,1)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Cryo;

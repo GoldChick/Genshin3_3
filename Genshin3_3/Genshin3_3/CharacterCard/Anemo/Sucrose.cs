@@ -6,7 +6,8 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
         new CharacterSimpleA(7,1),
         new 风灵作成6308(),
-        new CharacterSingleSummonQ(7,1,new Summon_Sucrose())
+        new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Anemo(3).MP(2).ToCostInit(),
+            (skill,me,c,args)=>me.AddSummon(new Summon_Sucrose()),new DamageVariable(7,1))
         };
 
         public override string NameID => "sucrose";

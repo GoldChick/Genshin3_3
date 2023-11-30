@@ -7,7 +7,7 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,5),
             new CharacterSimpleE(0,3,5),
-            new CharacterSimpleQ(0,5,5),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Geo(3).MP(2).ToCostInit(),new DamageVariable(0,5)),
             new Effect_QQ_Passive()
         };
         public override ElementCategory CharacterElement => ElementCategory.Geo;

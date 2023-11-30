@@ -17,7 +17,7 @@ namespace Genshin3_7
         public override CharacterRegion CharacterRegion => CharacterRegion.Fatui;
         private class Q : AbstractCardSkill
         {
-            public override CostInit Cost => new CostCreate().Hydro(3).ToCostInit();
+            public override CostInit Cost => new CostCreate().Hydro(3).MP(3).ToCostInit();
             public override SkillCategory Category => SkillCategory.Q;
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)

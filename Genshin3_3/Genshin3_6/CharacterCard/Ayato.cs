@@ -1,4 +1,5 @@
-﻿using TCGBase;
+﻿using Genshin3_5;
+using TCGBase;
 
 namespace Genshin3_6
 {
@@ -8,7 +9,8 @@ namespace Genshin3_6
         {
             new CharacterSimpleA(0,2,2),
             new CharacterEffectE(2,2,new Effect_Ayato()),
-            new CharacterSingleSummonQ(2,1,new Summon_Ayato())
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_Ayato()),new DamageVariable(2,1)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Hydro;

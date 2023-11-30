@@ -18,7 +18,7 @@ namespace Genshin3_7
 
         private class Q : AbstractCardSkill
         {
-            public override CostInit Cost => new CostCreate().Electro(3).ToCostInit();
+            public override CostInit Cost => new CostCreate().Electro(3).MP(2).ToCostInit();
             public override SkillCategory Category => SkillCategory.Q;
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
@@ -86,7 +86,7 @@ namespace Genshin3_7
     {
         public override int Skill => 2;
         public override string CharacterNameID => "yae";
-        public override CostInit Cost => new CostCreate().Electro(3).ToCostInit();
+        public override CostInit Cost => new CostCreate().Electro(3).MP(2).ToCostInit();
         public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs)
         {
             me.Enemy.Hurt(new DamageVariable(4, 4, 0), c.Card.Skills[2], () =>

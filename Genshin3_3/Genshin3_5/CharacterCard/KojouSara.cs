@@ -8,7 +8,8 @@ namespace Genshin3_5
         {
             new CharacterSimpleA(0,2,4),
             new CharacterSingleSummonE(4,1,new Summon_KojouSara_E()),
-            new CharacterSingleSummonQ(4,1,new Summon_KojouSara_Q(),4,4),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Electro(4).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_KojouSara_Q()),new DamageVariable(4,1)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Electro;

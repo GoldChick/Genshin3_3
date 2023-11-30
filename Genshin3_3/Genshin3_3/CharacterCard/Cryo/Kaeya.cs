@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,1),
             new CharacterSimpleE(1,3),
-            new CharacterEffectQ(1,1,new Effect_Kaeya(),false,1,4)
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(4).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Kaeya()),new DamageVariable(1,1))
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Cryo;

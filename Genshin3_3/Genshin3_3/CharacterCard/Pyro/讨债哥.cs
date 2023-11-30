@@ -8,7 +8,7 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,3),
             new CharacterEffectE(3,1,new Effect_Debt_Passive()),
-            new CharacterSimpleQ(3,5),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(3).MP(2).ToCostInit(),new DamageVariable(3,5)),
             new Effect_Debt_Passive()
         };
 

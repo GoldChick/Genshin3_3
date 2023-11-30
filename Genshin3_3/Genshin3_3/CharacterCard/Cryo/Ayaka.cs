@@ -9,7 +9,8 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleA(0,2,1),
             new CharacterSimpleE(1,3),
-            new CharacterSingleSummonQ(1,4,new Summon_Ayaka()),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(3).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_Ayaka()),new DamageVariable(1,4)),
             new Effect_Ayaka_Passive(),
         };
 

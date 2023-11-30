@@ -8,7 +8,12 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,7),
             new E(),
-            new Q()
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Anemo(4).MP(2).ToCostInit(),
+                (skill,me,c,args)=>
+                {
+                    me.Heal(skill, new(2), new(2, 0, true));
+                    me.AddSummon(new Summon_Jean());
+                })
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Anemo;
@@ -25,18 +30,6 @@ namespace Genshin3_3
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
                 me.Enemy.Hurt(new(7, 3), this, me.Enemy.SwitchToNext);
-            }
-        }
-        private class Q : AbstractCardSkill
-        {
-            public override SkillCategory Category => SkillCategory.Q;
-
-            public override CostInit Cost => new CostCreate().Anemo(4).MP(2).ToCostInit();
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Heal(this, new(2), new(2, 0, true));
-                me.AddSummon(new Summon_Jean());
             }
         }
     }

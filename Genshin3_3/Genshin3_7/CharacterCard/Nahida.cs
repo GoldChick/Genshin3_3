@@ -8,7 +8,8 @@ namespace Genshin3_7
         new CharacterSimpleA(6,1),
         new CharacterEffectE(6,2,new Effect_Nahida_E()),
         new BigE(),
-        new CharacterEffectQ(6,4,new Effect_Nahida_Q(),false)
+        new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Dendro(3).MP(2).ToCostInit(),
+            (skill,me,c,args)=>me.AddPersistent(new Effect_Nahida_Q()),new DamageVariable(6,4)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Dendro;

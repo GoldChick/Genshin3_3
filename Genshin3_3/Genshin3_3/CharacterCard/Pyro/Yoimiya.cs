@@ -9,7 +9,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,3),
             new E(),
-            new CharacterEffectQ(3,3,new Effect_Yoimiya_Q(),false)
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(3).MP(3).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Yoimiya_Q()),new DamageVariable(3,3)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Pyro;

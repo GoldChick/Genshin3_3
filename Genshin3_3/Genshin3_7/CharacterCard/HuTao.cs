@@ -7,7 +7,7 @@ namespace Genshin3_7
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleA(0,2,3),
-            new E(),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Pyro(2).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Hutao_E(), c.Index)),
             new Q()
         };
 
@@ -17,17 +17,6 @@ namespace Genshin3_7
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
         public override int MaxMP => 3;
-        private class E : AbstractCardSkill
-        {
-            public override CostInit Cost =>new CostCreate().Pyro(2).ToCostInit();
-
-            public override SkillCategory Category => SkillCategory.E;
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.AddPersistent(new Effect_Hutao_E(), c.Index);
-            }
-        }
         private class Q : AbstractCardSkill
         {
             public override CostInit Cost =>new CostCreate().Pyro(3).MP(3).ToCostInit();

@@ -9,7 +9,7 @@ namespace Genshin3_3
             new CharacterSimpleA(0,2,7),
             new CharacterSingleSummonE(new Summon_MaguuKenki_Anemo(),7),
             new CharacterSingleSummonE(new Summon_MaguuKenki_Cryo(),1),
-            new CharacterSimpleQ(7,4)
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Anemo(3).ToCostInit(),new DamageVariable(7,4))
         };
         public override int MaxMP => 3;
         public override ElementCategory CharacterElement => ElementCategory.Anemo;

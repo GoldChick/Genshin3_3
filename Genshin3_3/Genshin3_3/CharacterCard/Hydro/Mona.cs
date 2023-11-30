@@ -10,7 +10,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(2,1),
             new CharacterSingleSummonE(2,1,new Summon_Mona()),
-            new CharacterEffectQ(2,4,new Effect_Mona(),false),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(3).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Mona()),new DamageVariable(2,4)),
             new Effect_Mona_Passive()
         };
 

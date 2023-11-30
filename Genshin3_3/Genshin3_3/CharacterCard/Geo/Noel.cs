@@ -8,7 +8,8 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,5),
             new CharacterEffectE(5,1,new Effect_Noel_E(),false),
-            new CharacterEffectQ(5,4,new Effect_Noel_Q(),true,5,4)
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Geo(4).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddPersistent(new Effect_Noel_Q(),c.Index),new DamageVariable(5,4)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Geo;

@@ -9,7 +9,7 @@ namespace Genshin3_3
         {
             new CharacterSimpleA(0,2,1),
             new CharacterEffectE(1,3,new Effect_Chongyun(),false),
-            new CharacterSimpleQ(1,7)
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(3).ToCostInit(),new DamageVariable(1,7))
         };
         public override ElementCategory CharacterElement => ElementCategory.Cryo;
 

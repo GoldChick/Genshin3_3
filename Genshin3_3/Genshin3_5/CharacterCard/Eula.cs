@@ -1,4 +1,5 @@
-﻿using TCGBase;
+﻿using Genshin3_3;
+using TCGBase;
 
 namespace Genshin3_5
 {
@@ -8,9 +9,10 @@ namespace Genshin3_5
         {
             new CharacterSimpleA(0,2,1),
             new CharacterEffectE(1,2,new Effect_Eula()),
-            new CharacterSingleSummonQ(1,2,new Summon_Eula())
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(2).ToCostInit(),
+                (skill,me,c,args)=>me.AddSummon(new Summon_Eula()),new DamageVariable(1,2)),
         };
-
+        //TODO:有剑不加充能
         public override ElementCategory CharacterElement => ElementCategory.Cryo;
 
         public override WeaponCategory WeaponCategory => WeaponCategory.Claymore;
