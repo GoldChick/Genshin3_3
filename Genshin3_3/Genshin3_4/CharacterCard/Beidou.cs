@@ -44,7 +44,7 @@ namespace Genshin3_4
                     {
                         me.Enemy.Hurt(new DamageVariable(4, 3), c.Card.Skills[1]);
                         p.Active=false;
-                        //TODO:战斗行动？
+                        me.TrySwitchSide();
                     }
                 }
             }

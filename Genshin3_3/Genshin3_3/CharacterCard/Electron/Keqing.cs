@@ -13,10 +13,10 @@ namespace Genshin3_3
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
             var c = me.Characters[targetArgs[0]];
-            me.Game.HandleEvent(new(new(ActionType.SwitchForced, targetArgs[0])), me.TeamIndex);
+            me.Game.TryHandleEvent(new(new(ActionType.SwitchForced, targetArgs[0])), me.TeamIndex);
             if (c.Alive && me.CurrCharacter == c.Index && c.Active)
             {
-                me.Game.HandleEvent(new NetEvent(new NetAction(ActionType.UseSKill, 1), Array.Empty<int>(), new int[] { 114, 514 }), me.TeamIndex);
+                me.Game.TryHandleEvent(new NetEvent(new NetAction(ActionType.UseSKill, 1), Array.Empty<int>(), new int[] { 114, 514 }), me.TeamIndex);
             }
         }
         public override bool CanBeUsed(PlayerTeam me, int[] targetArgs)

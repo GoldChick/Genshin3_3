@@ -5,7 +5,7 @@ namespace Genshin3_3
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Anemo(1).ToCostInit(),new DamageVariable(7,1)),
-            new 风灵作成6308(),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Anemo(3).ToCostInit(),(skill,me,c,args)=>me.Enemy.SwitchToLast(),new DamageVariable(7,3)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Anemo(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddSummon(new Summon_Sucrose()),new DamageVariable(7,1))
         };
@@ -18,52 +18,25 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
 
-        private class 风灵作成6308 : AbstractCardSkill
-        {
-            public override CostInit Cost => new CostCreate().Anemo(3).ToCostInit();
-
-            public override SkillCategory Category => SkillCategory.E;
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Enemy.Hurt(new DamageVariable(7, 3, 0), this, me.Enemy.SwitchToLast);
-            }
-        }
     }
-    public class Summon_Sucrose : AbstractCardPersistentSummon
+    public class Summon_Sucrose : AbstractColorfulSummon
     {
-        private readonly bool _talent;
-        public Summon_Sucrose(bool talent = false)
+        public Summon_Sucrose(bool talent = false) : base(2, 3)
         {
-            _talent = talent;
-            Variant = _talent ? 1 : 0;
+            Variant = talent ? 1 : 0;
+            if (talent)
+            {
+                TriggerDic.Add(SenderTag.DamageIncrease, (me, p, s, v) =>
+                {
+                    if (p.Data is int element && me.TeamIndex == s.TeamID && v is DamageVariable dv && dv.Element == element)
+                    {
+                        dv.Damage++;
+                    }
+                });
+            }
         }
 
         public override int MaxUseTimes => 3;
-
-        public override PersistentTriggerDictionary TriggerDic => new()
-        {
-            { SenderTag.RoundOver,(me,p,s,v)=>
-            {
-                me.Enemy.Hurt(new(p.Data==null? 7: (int)p.Data,2),this);
-            }
-            },
-            { SenderTag.AfterHurt,(me,p,s,v)=>
-            {
-                if (p.Data==null && s is NoDamageHurtSender hs && hs.Reaction==ReactionTags.Swirl)
-                {
-                    p.Data=hs.InitialElement;
-                    Variant+=10*hs.InitialElement;
-                    //TODO:染色
-                }
-            }
-            }
-        };
-        public override void Update<T>(PlayerTeam me, Persistent<T> persistent)
-        {
-            base.Update(me, persistent);
-            Variant = _talent ? 1 : 0;
-        }
     }
     public class Talent_Sucrose : AbstractCardEquipmentOverrideSkillTalent
     {

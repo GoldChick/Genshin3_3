@@ -7,7 +7,7 @@ namespace Genshin3_7
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(2,2,new Effect_Tartaglia_E_Close()),
+            new CharacterEffectE(2,2,new Effect_Tartaglia_Sword()),
             new Q()
         };
 
@@ -23,37 +23,19 @@ namespace Genshin3_7
 
             public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
             {
-                var far = me.Characters[c.Index].Effects.Find(typeof(Effect_Tartaglia_E_Close));
+                var far = me.Characters[c.Index].Effects.Find(typeof(Effect_Tartaglia_Sword));
                 me.Enemy.Hurt(new(2, far == null ? 5 : 7), this, () =>
                 {
                     if (far == null)
                     {
-                        me.Enemy.AddPersistent(new Effect_Tartaglia_A(), me.Enemy.CurrCharacter);
+                        me.Enemy.AddPersistent(new Effect_Tartaglia_Stream(), me.Enemy.CurrCharacter);
                         c.MP += 2;
                     }
                 });
             }
         }
     }
-    public class Effect_Tartaglia_Passive : AbstractCardSkillPassive
-    {
-        public override bool TriggerOnce => false;
-
-        public override int MaxUseTimes => 1;
-        public override PersistentTriggerDictionary TriggerDic => new()
-        {
-            { SenderTag.GameStart,(me,p,s,v)=>me.AddPersistent(new Effect_Tartaglia_E_Far(),p.PersistentRegion) },
-            { SenderTag.AfterPersistentOtherDesperated,(me,p,s,v)=>
-            {
-                if (s.TeamID==me.TeamIndex&&s is PersistentDesperatedSender ss && ss.Persistent is Effect_Tartaglia_E_Close && ss.Region==p.PersistentRegion)
-                {
-                    me.AddPersistent(new Effect_Tartaglia_E_Far(),p.PersistentRegion);
-                }
-            }
-            },
-        };
-    }
-    public class Effect_Tartaglia_A : AbstractCardPersistent
+    public class Effect_Tartaglia_Stream : AbstractCardPersistent
     {
         public override int MaxUseTimes => 1;
 
@@ -65,17 +47,17 @@ namespace Genshin3_7
                 {
                     if (me.CurrCharacter!=die.Cha_Index)
                     {
-                        me.AddPersistent(new Effect_Tartaglia_A(),me.CurrCharacter);
+                        me.AddPersistent(new Effect_Tartaglia_Stream(),me.CurrCharacter);
                     }else
                     {
-                        me.AddPersistent(new Effect_Tartaglia_A_Die());
+                        me.AddPersistent(new Effect_Tartaglia_Stream_Die());
                     }
                 }
             }
             }
         };
     }
-    public class Effect_Tartaglia_A_Die : AbstractCardPersistent
+    public class Effect_Tartaglia_Stream_Die : AbstractCardPersistent
     {
         public override int MaxUseTimes => 1;
 
@@ -85,34 +67,14 @@ namespace Genshin3_7
             {
                 if (me.TeamIndex==s.TeamID && s is AfterSwitchSender ss)
                 {
-                    me.AddPersistent(new Effect_Tartaglia_A(),ss.Target);
+                    me.AddPersistent(new Effect_Tartaglia_Stream(),ss.Target);
                     p.AvailableTimes--;
                 }
             }
             }
         };
     }
-    public class Effect_Tartaglia_E_Far : AbstractCardPersistent
-    {
-        public override int MaxUseTimes => 1;
-
-        public override PersistentTriggerDictionary TriggerDic => new()
-        {
-            { SenderTag.UseDiceFromSkill,new PersistentDiceCostModifier<UseDiceFromSkillSender>(
-                (me,p,s,v)=>me.TeamIndex==s.TeamID&&p.PersistentRegion==s.Character.Index&&s.Skill.Category==SkillCategory.A && me.GetDices().Sum()%2==0,
-                0,0,false,(me,p,s)=>p.Data=114)},
-            { SenderTag.DamageIncrease,(me,p,s,v)=>
-            {
-                if (me.TeamIndex==s.TeamID && p.Data!=null && v is DamageVariable dv)
-                {
-                    me.Enemy.AddPersistent(new Effect_Tartaglia_A(),dv.TargetIndex);
-                    p.Data=null;
-                }
-            }
-            }
-        };
-    }
-    public class Effect_Tartaglia_E_Close : AbstractCardPersistent
+    public class Effect_Tartaglia_Sword : AbstractCardPersistent
     {
         public override int MaxUseTimes => 2;
 
@@ -124,7 +86,7 @@ namespace Genshin3_7
                 if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
                 {
                     dv.Element=2;
-                    var a_effect=me.Enemy.Characters[dv.TargetIndex].Effects.Find(typeof(Effect_Tartaglia_A));
+                    var a_effect=me.Enemy.Characters[dv.TargetIndex].Effects.Find(typeof(Effect_Tartaglia_Stream));
                     if (a_effect!=null)
                     {
                         if (p.Data==null)

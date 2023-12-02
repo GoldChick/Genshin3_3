@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Genshin3_7\ActionCard\Event\" />
+    <Folder Include="Genshin3_7\ActionCard\Event\Food\" />
     <Folder Include="Genshin4_1\" />
     <Folder Include="Genshin4_2\" />
     <Folder Include="Genshin4_0\" />

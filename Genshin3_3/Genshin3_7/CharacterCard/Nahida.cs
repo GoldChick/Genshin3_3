@@ -6,8 +6,11 @@ namespace Genshin3_7
     {
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Dendro(1).ToCostInit(),new DamageVariable(6,1)),
-            new CharacterEffectE(6,2,new Effect_Nahida_E()),
-            new BigE(),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(3).ToCostInit(),
+                (skill,me,c,args)=>me.Enemy.AddPersistent(new Effect_Nahida_E()),new DamageVariable(6,2)),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(3).ToCostInit(),
+                (skill,me,c,args)=>{ me.Enemy.AddPersistent(new Effect_Nahida_E());me.Enemy.AddPersistent(new Effect_Nahida_E()); }
+                ,new DamageVariable(6,3)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Dendro(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Nahida_Q()),new DamageVariable(6,4)),
         };
@@ -17,22 +20,6 @@ namespace Genshin3_7
         public override WeaponCategory WeaponCategory => WeaponCategory.Catalyst;
 
         public override CharacterRegion CharacterRegion => CharacterRegion.SUMERU;
-
-        public class BigE : AbstractCardSkill
-        {
-            public override CostInit Cost => new CostCreate().Dendro(5).ToCostInit();
-
-            public override SkillCategory Category => SkillCategory.E;
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.Enemy.Hurt(new DamageVariable(6, 3, 0), this, () =>
-                {
-                    me.Enemy.AddPersistent(new Effect_Nahida_E(), me.Enemy.CurrCharacter);
-                    me.Enemy.AddPersistent(new Effect_Nahida_E(), me.Enemy.CurrCharacter);
-                });
-            }
-        }
     }
     public class Effect_Nahida_E : AbstractCardPersistent
     {
@@ -83,7 +70,7 @@ namespace Genshin3_7
                 }
                 else
                 {
-                    me.Enemy.AddPersistent(new Effect_Nahida_E(), index);
+                    me.AddPersistent(new Effect_Nahida_E(), index);
                 }
             }
         }

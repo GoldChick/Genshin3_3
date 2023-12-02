@@ -12,7 +12,6 @@ namespace Genshin3_7
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Anemo(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddSummon(new Summon_Venti()),new DamageVariable(7,2)),
         };
-        //TODO:拉人
 
         public override ElementCategory CharacterElement => ElementCategory.Anemo;
 
@@ -48,19 +47,23 @@ namespace Genshin3_7
 
         public override PersistentTriggerDictionary TriggerDic { get; }
     }
-    public class Summon_Venti : AbstractCardPersistentSummon
+    public class Summon_Venti : AbstractColorfulSummon
     {
-        public override int MaxUseTimes => 2;
-
-        public override PersistentTriggerDictionary TriggerDic => new()
+        public Summon_Venti() : base(2, 2, true)
         {
-            { SenderTag.RoundOver,(me,p,s,v)=>
+            TriggerDic.Add(SenderTag.RoundOver, (me, p, s, v) =>
             {
-                me.Enemy.Hurt(new(7,2),this);
-                //TODO:染色
-            } 
-            }
-        };
+                me.Enemy.Hurt(new DamageVariable(p.Data is int element ? element : _init_element, _damage), this,
+                    () =>
+                    {
+                        var enemy_chars = me.Enemy.Characters;
+                        var dists = enemy_chars.Select((c, index) => ((enemy_chars.Length + c.Index - me.CurrCharacter) % enemy_chars.Length, index)).ToList();
+                        dists.Sort((a1, a2) => a1.Item1 - a2.Item1);
+                        me.Enemy.SwitchToIndex(dists.First().index);
+                        p.AvailableTimes--;
+                    });
+            });
+        }
     }
     public class Effect_Venti_T : AbstractCardPersistent
     {

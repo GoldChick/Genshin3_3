@@ -1,12 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TCGBase;
 
 namespace Genshin3_7
 {
-    internal class Weapon_AThousandFloatingDreams
+    partial class Weapon_AThousandFloatingDreams : AbstractCardWeapon
     {
+        public override WeaponCategory WeaponCategory => WeaponCategory.Catalyst;
+        public override int MaxUseTimes => 2;
+        public override CostInit Cost => new CostCreate().Same(3).ToCostInit();
+        public override PersistentTriggerDictionary TriggerDic => new()
+        {
+            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            { SenderTag.DamageIncrease,(me,p,s,v)=>
+            {
+                if (me.TeamIndex==s.TeamID && s is PreHurtSender hs && hs.RootSource is AbstractCardSkill skill && v is DamageVariable dv)
+                {
+                    if (dv.Reaction!=ReactionTags.None && p.AvailableTimes>0)
+                    {
+                        //与原版不同，只要是根本来源为角色，都可以加伤
+                        p.AvailableTimes--;
+                        dv.Damage+=1;
+                    }
+                    if (me.CurrCharacter==p.PersistentRegion && dv.DirectSource==DamageSource.Character)
+                    {
+                        dv.Damage+=1;
+                    }
+                }
+            }
+            }
+        };
     }
 }

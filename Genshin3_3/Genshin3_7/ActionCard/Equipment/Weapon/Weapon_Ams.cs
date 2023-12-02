@@ -1,13 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TCGBase;
 
-namespace Genshin3_3.Genshin3_7.ActionCard.Equipment.Weapon
+namespace Genshin3_7
 {
-    internal class Weapon_Ams
+    public class Weapon_Ams : AbstractCardWeapon
     {
-        //TODO:充能
+        public override WeaponCategory WeaponCategory => WeaponCategory.Bow;
+
+        public override int MaxUseTimes => 1;
+
+        public override PersistentTriggerDictionary TriggerDic => new()
+        {
+            { SenderTag.DamageIncrease,(me,p,s,v)=>
+            {
+                if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
+                {
+                    dv.Damage++;
+                    if (s is PreHurtSender hs  && p.AvailableTimes>0 && hs.RootSource is AbstractCardSkill skill && skill.Cost.GetCost().Sum()>=5)
+                    {
+                        dv.Damage+=2;
+                        p.AvailableTimes--;
+                    }
+                }
+            }
+            },
+            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes}
+        };
+
+        public override CostInit Cost => new CostCreate().Same(3).ToCostInit();
     }
 }

@@ -37,13 +37,13 @@ namespace Genshin3_7
                             if (talent && p.Data==null && skill.Category==SkillCategory.A && dv.DirectSource==DamageSource.Character)
                             {
                                 p.Data=114;
-	                        }else
+                            }else
                             {
                                 p.AvailableTimes--;
                             }
                         }
-	                }
-                } 
+                    }
+                }
                 }
             };
         }
@@ -51,17 +51,32 @@ namespace Genshin3_7
     }
     public class Summon_Shenhe : AbstractCardPersistentSummon
     {
-        public override int MaxUseTimes => throw new NotImplementedException();
+        public override int MaxUseTimes => 2;
 
-        public override PersistentTriggerDictionary TriggerDic => throw new NotImplementedException();
+        public override PersistentTriggerDictionary TriggerDic => new()
+        {
+            { SenderTag.RoundOver,(me,p,s,v)=>me.Enemy.Hurt(new(1,1),this,()=>p.AvailableTimes--) },
+            { SenderTag.DamageIncrease,(me,p,s,v)=>
+            {
+                if (me.TeamIndex==s.TeamID && v is DamageVariable dv && (dv.Element==0||dv.Element==1))
+                {
+                    dv.Damage++;
+                }
+            }
+            }
+        };
     }
 
     public class Talent_Shenhe : AbstractCardEquipmentOverrideSkillTalent
     {
-        public override int Skill => throw new NotImplementedException();
+        public override int Skill => 1;
 
-        public override string CharacterNameID => throw new NotImplementedException();
+        public override string CharacterNameID => "shenhe";
 
-        public override CostInit Cost => throw new NotImplementedException();
+        public override CostInit Cost => new CostCreate().Cryo(3).ToCostInit();
+        public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs)
+        {
+            me.Enemy.Hurt(new(1, 2), c.Card.Skills[1], () => me.AddPersistent(new Effect_Shenhe(true)));
+        }
     }
 }

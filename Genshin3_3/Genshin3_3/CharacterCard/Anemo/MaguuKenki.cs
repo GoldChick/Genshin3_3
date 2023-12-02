@@ -67,10 +67,11 @@ namespace Genshin3_3
             {
                 if (me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && ss.Character.Index==p.PersistentRegion && ss.Skill.Category==SkillCategory.E)
                 {
-                    if (ss.Skill.Cost.DiceCost[1]>0)
+                    var costs=ss.Skill.Cost.GetCost();
+                    if (costs[1]>0)
                     {
                         me.SwitchToLast();
-	                }else if(ss.Skill.Cost.DiceCost[7]>0)
+	                }else if(costs[7]>0)
                     {
                         me.SwitchToNext();
                     }

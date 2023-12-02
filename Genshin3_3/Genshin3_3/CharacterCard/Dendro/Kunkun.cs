@@ -12,7 +12,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Dendro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterSimpleE(6,3),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(3).ToCostInit(),new DamageVariable(6,3)),
             new Q(),
             new Effect_Kunkun_Passive()
         };

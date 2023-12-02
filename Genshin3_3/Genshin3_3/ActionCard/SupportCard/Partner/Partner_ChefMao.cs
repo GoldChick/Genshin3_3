@@ -14,12 +14,16 @@ namespace Genshin3_3
             { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
             { SenderTag.AfterUseCard,(me,p,s,v)=>
             {
-                me.AddDiceRange(1+me.Random.Next(7));
-                if (p.Data==null)
+                if (s is AfterUseCardSender ss && ss.Card is ICardFood)
                 {
-                    me.RollCard(typeof(ICardFood));
-                    p.Data=1;
+                    me.AddDiceRange(1+me.Random.Next(7));
+                    if (p.Data==null)
+                    {
+                        me.RollCard(typeof(ICardFood));
+                        p.Data=1;
+                    }
                 }
+
             } }
         };
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)

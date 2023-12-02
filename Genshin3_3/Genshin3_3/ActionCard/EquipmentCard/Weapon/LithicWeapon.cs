@@ -14,7 +14,7 @@ namespace Genshin3_3
         }
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
-            me.AddPersistent(new LithicWeaponShield(), targetArgs[0]);
+            me.AddPersistent(new LithicWeaponShield(me.Characters.Where(c => c.Card.CharacterRegion == CharacterRegion.LIYUE).Count()), targetArgs[0]);
             base.AfterUseAction(me, targetArgs);
         }
 
@@ -35,10 +35,14 @@ namespace Genshin3_3
             }
         };
     }
-    //TODO:看场上的角色数量
     public class LithicWeaponShield : AbstractPersistentShieldYellow
     {
+        public override int InitialUseTimes { get; }
         public override int MaxUseTimes => 3;
+        public LithicWeaponShield(int initialUseTimes)
+        {
+            InitialUseTimes = initialUseTimes;
+        }
     }
 
 }
