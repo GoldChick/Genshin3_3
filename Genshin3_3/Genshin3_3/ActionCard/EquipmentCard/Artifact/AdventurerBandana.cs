@@ -10,7 +10,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=3},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.AfterUseSkill,(me,p,s,v)=>
             {
                 if (p.AvailableTimes>0 && me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && ss.Character.Index==p.PersistentRegion && ss.Skill.Category==SkillCategory.A)

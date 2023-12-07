@@ -22,17 +22,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.DamageIncrease,(me,p,s,v)=>
-            {
-                if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
-                {
-                    if (dv.Element>=0)
-                    {
-                        dv.Damage++;
-                    }
-                }
-            }
-            }
+            new PersistentPreset.WeaponDamageIncrease(),
         };
     }
     public class LithicWeaponShield : AbstractPersistentShieldYellow

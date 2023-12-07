@@ -19,7 +19,7 @@ namespace Genshin3_3
                 }
             }
             },
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes-- }
+            new PersistentPreset.RoundStepDecrease(),
         };
     }
 }

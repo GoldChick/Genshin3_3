@@ -20,7 +20,7 @@ namespace Genshin3_3
 
         public override string NameID => "kaeya";
     }
-    public class Effect_Kaeya : AbstractCardPersistent
+    public class Effect_Kaeya : AbstractCardEffect
     {
         public override string NameID => "effect_kaeya";
         public override int MaxUseTimes => 3;
@@ -48,7 +48,7 @@ namespace Genshin3_3
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.AfterUseSkill,(me,p,s,v)=>
             {
                 if (me.TeamIndex==s.TeamID && p.AvailableTimes>0 && s is AfterUseSkillSender ss && ss.Character.Index==p.PersistentRegion && ss.Skill.Category==SkillCategory.E)

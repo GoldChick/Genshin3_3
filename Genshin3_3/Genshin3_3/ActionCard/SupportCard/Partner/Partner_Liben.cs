@@ -13,9 +13,9 @@ namespace Genshin3_3
             {
                if (p.AvailableTimes>=3)
                 {
-                    p.Active=false;
                     me.RollCard(2);
                     me.AddDiceRange(0,0);
+                    p.Active=false;
                 }
             }
             },
@@ -23,13 +23,27 @@ namespace Genshin3_3
             {
                 var sorted_dices=me.GetSortedDices();
                 int cnt=0;
-                for (int i = 0; i < 3-p.AvailableTimes; i++)
+                for (int i = 0; i < 7; i++)
                 {
                     if (sorted_dices[i].count>0)
                     {
                         me.TryRemoveDice(sorted_dices[i].element);
                         cnt++;
+                        if (cnt==3-p.AvailableTimes)
+                        {
+                            break;
+                        }
                     }
+                }
+                var need=3-p.AvailableTimes-cnt;
+                for (int i = 0; i < need; i++)
+                {
+                    int min=int.Min(need,sorted_dices.Last().count);
+                    for (int j = 0; j < min; j++)
+                    {
+                        me.TryRemoveDice(0);
+                    }
+                    cnt+=min;
                 }
                 p.AvailableTimes+=cnt;
             } }

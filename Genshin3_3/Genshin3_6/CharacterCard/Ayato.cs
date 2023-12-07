@@ -8,7 +8,7 @@ namespace Genshin3_6
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(2,2,new Effect_Ayato()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Hydro(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Ayato(), c.Index),new DamageVariable(2,2)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddSummon(new Summon_Ayato()),new DamageVariable(2,1)),
         };
@@ -19,7 +19,7 @@ namespace Genshin3_6
 
         public override CharacterRegion CharacterRegion => CharacterRegion.INAZUMA;
     }
-    public class Effect_Ayato : AbstractCardPersistent
+    public class Effect_Ayato : AbstractCardEffect
     {
         public override int MaxUseTimes => 3;
 
@@ -40,7 +40,7 @@ namespace Genshin3_6
             }
         };
     }
-    public class Summon_Ayato : AbstractCardPersistentSummon
+    public class Summon_Ayato : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

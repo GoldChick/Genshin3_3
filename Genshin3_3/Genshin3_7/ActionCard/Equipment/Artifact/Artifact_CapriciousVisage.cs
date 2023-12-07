@@ -9,7 +9,7 @@ namespace Genshin3_7
         public override CostInit Cost => new CostCreate().Void(2).ToCostInit();
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.UseDiceFromSkill,new PersistentDiceCostModifier<UseDiceFromSkillSender>(
                 (me,p,s,v)=>me.TeamIndex==s.TeamID&&s.Character.Index==p.PersistentRegion&&s.Skill.Category==SkillCategory.E,0,1)},
             { SenderTag.UseDiceFromCard,new PersistentDiceCostModifier<UseDiceFromCardSender>(

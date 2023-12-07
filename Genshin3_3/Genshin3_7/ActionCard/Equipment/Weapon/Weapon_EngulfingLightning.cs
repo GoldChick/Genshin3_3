@@ -19,11 +19,8 @@ namespace Genshin3_7
 	            }
             } 
             },
-            { SenderTag.RoundStep,(me,p,s,v)=>
-            {
-                p.AvailableTimes=MaxUseTimes;
-            } 
-            }
+            new PersistentPreset.WeaponDamageIncrease(),
+            new PersistentPreset.RoundStepReset()
         };
     }
 }

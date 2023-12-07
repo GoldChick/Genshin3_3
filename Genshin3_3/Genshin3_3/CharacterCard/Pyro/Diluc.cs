@@ -35,13 +35,13 @@ namespace Genshin3_3
         }
     }
 
-    public class Effect_Diluc : AbstractCardPersistent
+    public class Effect_Diluc : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.ElementEnchant,new PersistentElementEnchant(3)}
         };
     }

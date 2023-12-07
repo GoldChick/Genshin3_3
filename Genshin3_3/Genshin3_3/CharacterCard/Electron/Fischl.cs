@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Electro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterSingleSummonE(4,1,new Summon_Fischl()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Electro(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_Fischl()),new DamageVariable(4,1)),
             new 至夜幻现()
         };
         public override int MaxMP => 3;
@@ -30,7 +30,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Summon_Fischl : AbstractCardPersistentSummon
+    public class Summon_Fischl : AbstractCardSummon
     {
         public Summon_Fischl(bool talent = false)
         {

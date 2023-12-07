@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Pyro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterSingleSummonE(new Summon_Xiangling(),3),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Pyro(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_Xiangling())),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(4).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Xiangling()),new DamageVariable(3,3)),
         };
@@ -27,7 +27,7 @@ namespace Genshin3_3
         }
     }
 
-    public class Effect_Xiangling : AbstractCardPersistent
+    public class Effect_Xiangling : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
         public override PersistentTriggerDictionary TriggerDic => new()

@@ -28,7 +28,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Effect_Maiden : AbstractCardPersistent
+    public class Effect_Maiden : AbstractCardEffect
     {
         public Effect_Maiden(bool talent)
         {

@@ -12,12 +12,19 @@ namespace Genshin3_3
             Cost = new CostCreate().Void(2).ToCostInit();
             TriggerDic = new()
             {
-                { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1},
-                { SenderTag.UseDiceFromSkill,new PersistentDiceCostModifier<UseDiceFromSkillSender>(
-                    (me,p,s,v)=>me.TeamIndex==s.TeamID&&s.Character.Index==p.PersistentRegion,element,1)},
-                { SenderTag.UseDiceFromCard,new PersistentDiceCostModifier<UseDiceFromCardSender>(
-                (me,p,s,v)=>me.TeamIndex==s.TeamID&&s.Card is ICardTalent ict && me.Characters[p.PersistentRegion].Card is AbstractCardCharacter abcc &&
-                ict.CharacterNameID==abcc.NameID && ict.CharacterNamespace==abcc.Namespace,element,1)},
+                new PersistentPreset.RoundStepReset(),
+                new PersistentPreset.UseDiceModifier<UseDiceFromSkillSender>
+                    (
+                    (me,p,s,v)=>me.TeamIndex==s.TeamID&&s.Character.Index==p.PersistentRegion,
+                    (me,p,s,v)=>new CostModifier((DiceModifierType)element,1)
+                    ),
+                new PersistentPreset.UseDiceModifier<UseDiceFromCardSender>
+                    (
+                    (me,p,s,v)=>me.TeamIndex==s.TeamID && s.Card is ICardTalent ict && 
+                            me.Characters[p.PersistentRegion].Card is AbstractCardCharacter abcc &&
+                            ict.CharacterNameID==abcc.NameID && ict.CharacterNamespace==abcc.Namespace,
+                    (me,p,s,v)=>new CostModifier((DiceModifierType)element,1)
+                    ),
             };
             if (big)
             {

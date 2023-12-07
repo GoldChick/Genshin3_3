@@ -13,7 +13,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.DamageIncrease,(me,p,s,v)=>
             {
                 //该角色下一次“引发”火元素相关反应时伤害+3

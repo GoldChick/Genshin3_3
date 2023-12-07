@@ -6,26 +6,15 @@ namespace Genshin3_4
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Pyro(1).ToCostInit(),new DamageVariable(3,1)),
-            new CharacterEffectE(3,3,new Effect_Klee_E()),
-            new Q()
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Pyro(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Klee_E(), c.Index),new DamageVariable(3,3)),
+            new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(3).MP(3).ToCostInit(),(skill,me,c,args)=>me.Enemy.AddTeamEffect(new Effect_Klee_Q()),new DamageVariable(3,3))
         };
         public override int MaxMP => 3;
         public override ElementCategory CharacterElement => ElementCategory.Pyro;
         public override WeaponCategory WeaponCategory => WeaponCategory.Catalyst;
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
-        public override string NameID => "klee";
-        private class Q : AbstractCardSkill
-        {
-            public override SkillCategory Category => SkillCategory.Q;
-            public override CostInit Cost => new CostCreate().Pyro(3).MP(3).ToCostInit();
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[]? targetArgs = null)
-            {
-                me.Enemy.Hurt(new DamageVariable(3, 3), this, () => me.Enemy.AddPersistent(new Effect_Klee_Q()));
-            }
-        }
     }
-    public class Effect_Klee_Q : AbstractCardPersistent
+    public class Effect_Klee_Q : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -42,7 +31,7 @@ namespace Genshin3_4
                 }
             };
     }
-    public class Effect_Klee_E : AbstractCardPersistent
+    public class Effect_Klee_E : AbstractCardEffect
     {
         public override int MaxUseTimes { get; }
         public Effect_Klee_E(bool talent = false)

@@ -7,7 +7,7 @@ namespace Genshin3_6
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Dendro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(6,2,new Effect_Tighnari()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Tighnari(), c.Index),new DamageVariable(6,2)),
             new Q()
         };
 
@@ -28,7 +28,7 @@ namespace Genshin3_6
             }
         }
     }
-    public class Effect_Tighnari : AbstractCardPersistent
+    public class Effect_Tighnari : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -58,7 +58,7 @@ namespace Genshin3_6
             }
         };
     }
-    public class Summon_Tighnari : AbstractCardPersistentSummon
+    public class Summon_Tighnari : AbstractCardSummon
     {
         public override int InitialUseTimes => 1;
         public override int MaxUseTimes => 2;

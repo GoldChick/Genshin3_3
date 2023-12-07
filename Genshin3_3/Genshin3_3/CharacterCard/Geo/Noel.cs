@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Geo(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(5,1,new Effect_Noel_E(),false),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Geo(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Noel_E()),new DamageVariable(5,1)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Geo(4).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Noel_Q(),c.Index),new DamageVariable(5,4)),
         };
@@ -32,7 +32,7 @@ namespace Genshin3_3
             });
         }
     }
-    public class Effect_Noel_Q : AbstractCardPersistent
+    public class Effect_Noel_Q : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -44,7 +44,7 @@ namespace Genshin3_3
                 ,5,1,false,(me,p,s)=>p.Data=1
             )},
             {SenderTag.ElementEnchant,new PersistentElementEnchant(5,false,2)},
-            {SenderTag.RoundStep,(me,p,s,v)=> p.AvailableTimes-- }
+            new PersistentPreset.RoundStepDecrease(),
         };
     }
 

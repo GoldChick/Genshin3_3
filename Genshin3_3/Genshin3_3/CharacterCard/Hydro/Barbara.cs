@@ -7,7 +7,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(2,1)),
-            new CharacterSingleSummonE(2,1,new Summon_Barbara()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Hydro(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_Barbara()),new DamageVariable(2,1)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(3).ToCostInit(),
                 (skill,me,p,ts)=>me.Heal(skill, new(4), new(4, 0, true)))
         };
@@ -18,7 +18,7 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
     }
-    public class Summon_Barbara : AbstractCardPersistentSummon
+    public class Summon_Barbara : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 
@@ -42,7 +42,7 @@ namespace Genshin3_3
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.UseDiceFromSwitch,new PersistentDiceCostModifier<UseDiceFromSwitchSender>(
                 (me,p,s,v)=> me.TeamIndex==s.TeamID&&me.Summons.Find(typeof(Summon_Barbara)) is AbstractPersistent summon
                 ,0,1)}

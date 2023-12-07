@@ -7,8 +7,8 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Anemo(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterSingleSummonE(new Summon_MaguuKenki_Anemo(),7),
-            new CharacterSingleSummonE(new Summon_MaguuKenki_Cryo(),1),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Anemo(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_MaguuKenki_Anemo())),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Cryo(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_MaguuKenki_Cryo())),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Anemo(3).ToCostInit(),new DamageVariable(7,4))
         };
         public override int MaxMP => 3;
@@ -20,7 +20,7 @@ namespace Genshin3_3
 
         public override CharacterCategory CharacterCategory => CharacterCategory.Mob;
     }
-    public class Summon_MaguuKenki_Anemo : AbstractCardPersistentSummon
+    public class Summon_MaguuKenki_Anemo : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 
@@ -37,7 +37,7 @@ namespace Genshin3_3
             }
         };
     }
-    public class Summon_MaguuKenki_Cryo : AbstractCardPersistentSummon
+    public class Summon_MaguuKenki_Cryo : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

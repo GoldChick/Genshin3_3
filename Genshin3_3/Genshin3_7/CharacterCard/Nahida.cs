@@ -7,12 +7,12 @@ namespace Genshin3_7
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Dendro(1).ToCostInit(),new DamageVariable(6,1)),
             new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(3).ToCostInit(),
-                (skill,me,c,args)=>me.Enemy.AddPersistent(new Effect_Nahida_E()),new DamageVariable(6,2)),
-            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(3).ToCostInit(),
-                (skill,me,c,args)=>{ me.Enemy.AddPersistent(new Effect_Nahida_E());me.Enemy.AddPersistent(new Effect_Nahida_E()); }
+                (skill,me,c,args)=>me.Enemy.AddPersonalEffect(new Effect_Nahida_E()),new DamageVariable(6,2)),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Dendro(5).ToCostInit(),
+                (skill,me,c,args)=>{ me.Enemy.AddPersonalEffect(new Effect_Nahida_E());me.Enemy.AddPersonalEffect(new Effect_Nahida_E()); }
                 ,new DamageVariable(6,3)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Dendro(3).MP(2).ToCostInit(),
-                (skill,me,c,args)=>me.AddPersistent(new Effect_Nahida_Q()),new DamageVariable(6,4)),
+                (skill,me,c,args)=>me.AddTeamEffect(new Effect_Nahida_Q()),new DamageVariable(6,4)),
         };
 
         public override ElementCategory CharacterElement => ElementCategory.Dendro;
@@ -21,7 +21,7 @@ namespace Genshin3_7
 
         public override CharacterRegion CharacterRegion => CharacterRegion.SUMERU;
     }
-    public class Effect_Nahida_E : AbstractCardPersistent
+    public class Effect_Nahida_E : AbstractCardEffect
     {
         private readonly static string Effect_Nahida_E_Trigger = "genshin3_7:effect_nahida_e_trigger";
         public override int MaxUseTimes => 2;
@@ -76,7 +76,7 @@ namespace Genshin3_7
         }
     }
 
-    public class Effect_Nahida_Q : AbstractCardPersistent
+    public class Effect_Nahida_Q : AbstractCardEffect
     {
         public Effect_Nahida_Q(bool hydro = false)
         {

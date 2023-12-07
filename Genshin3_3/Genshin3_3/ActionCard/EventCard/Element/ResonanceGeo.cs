@@ -13,7 +13,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.AfterHurt,(me,p,s,v)=>
             {
                 if (me.TeamIndex!=s.TeamID && s is HurtSender hs && hs.DirectSource is DamageSource.Character && hs.Element==5)

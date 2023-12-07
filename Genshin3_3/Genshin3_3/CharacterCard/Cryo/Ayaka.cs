@@ -46,7 +46,7 @@ namespace Genshin3_3
         }
     }
 
-    public class Effect_Ayaka : AbstractCardPersistent
+    public class Effect_Ayaka : AbstractCardEffect
     {
         public Effect_Ayaka(bool talent = false)
         {
@@ -82,7 +82,7 @@ namespace Genshin3_3
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.UseDiceFromSwitch,new PersistentDiceCostModifier<UseDiceFromSwitchSender>(
                 (me,p,s,v)=>me.TeamIndex==s.TeamID && s.Target==p.PersistentRegion,0,1)},
             { SenderTag.AfterSwitch,(me,p,s,v)=>

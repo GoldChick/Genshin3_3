@@ -9,7 +9,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(2,1)),
-            new CharacterSingleSummonE(2,1,new Summon_Mona()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Hydro(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_Mona()),new DamageVariable(2,1)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(3).ToCostInit(),
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Mona()),new DamageVariable(2,4)),
             new Effect_Mona_Passive()
@@ -34,7 +34,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.AfterSwitch,(me,p,s,v)=>
             {
                 if (p.AvailableTimes>0&&me.TeamIndex==s.TeamID && v is FastActionVariable fv && !fv.Fast && s is AfterSwitchSender ss && ss.Source==p.PersistentRegion)
@@ -46,7 +46,7 @@ namespace Genshin3_3
             }
         };
     }
-    public class Summon_Mona : AbstractCardPersistentSummon
+    public class Summon_Mona : AbstractCardSummon
     {
         public override bool CustomDesperated => true;
         public override int MaxUseTimes => 1;
@@ -57,7 +57,7 @@ namespace Genshin3_3
         };
         public override string NameID => "summon_mona";
     }
-    public class Effect_Mona : AbstractCardPersistent
+    public class Effect_Mona : AbstractCardEffect
     {
         public override string NameID => "effect_mona";
         public override int MaxUseTimes => 1;

@@ -13,9 +13,9 @@ namespace Genshin3_3
         public override int MaxUseTimes => 1;
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)
         {
-            var dendro = me.Effects.Find(typeof(DendroCore));
-            var catalyze = me.Effects.Find(typeof(CatalyzeField));
-            var burning = me.Summons.Find(typeof(Burning));
+            var dendro = me.Effects.Find(typeof(Effect_DendroCore));
+            var catalyze = me.Effects.Find(typeof(Effect_CatalyzeField));
+            var burning = me.Summons.Find(typeof(Summon_Burning));
             if (dendro != null)
             {
                 dendro.AvailableTimes++;
@@ -32,7 +32,7 @@ namespace Genshin3_3
         }
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.DamageIncrease,(me,p,s,v)=>
             {
                 if (me.TeamIndex==s.TeamID&&v is DamageVariable dv)

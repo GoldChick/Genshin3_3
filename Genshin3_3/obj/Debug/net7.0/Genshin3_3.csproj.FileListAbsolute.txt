@@ -13,3 +13,4 @@ C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.pdb
 C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\ref\Genshin3_3.dll
 C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\GenshinTCG.dll
 C:\Users\11847\Documents\Genshin3_3\Genshin3_3\bin\Debug\net7.0\GenshinTCG.pdb
+C:\Users\11847\Documents\Genshin3_3\Genshin3_3\obj\Debug\net7.0\Genshin3_3.sourcelink.json

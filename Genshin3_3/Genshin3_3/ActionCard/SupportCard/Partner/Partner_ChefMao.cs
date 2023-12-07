@@ -11,7 +11,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.AfterUseCard,(me,p,s,v)=>
             {
                 if (s is AfterUseCardSender ss && ss.Card is ICardFood)

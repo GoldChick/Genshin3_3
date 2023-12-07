@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Genshin3_3")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4cb4bf2789bf6c4433d07d565dd85db48c814e5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Genshin3_3")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Genshin3_3")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

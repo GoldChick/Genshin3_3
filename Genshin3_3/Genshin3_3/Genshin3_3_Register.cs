@@ -54,10 +54,14 @@ namespace Genshin3_3
             consumer.Accept(new Partner_ChangTheNinth());
             consumer.Accept(new Partner_ChefMao());
             consumer.Accept(new Partner_Ellin());
+            consumer.Accept(new Partner_IronTongueTian());
+            consumer.Accept(new Partner_Katheryne());
             consumer.Accept(new Partner_Liben());
             consumer.Accept(new Partner_LiuSu());
             consumer.Accept(new Partner_Paimon());
+            consumer.Accept(new Partner_Timaeus());
             consumer.Accept(new Partner_Timmie());
+            consumer.Accept(new Partner_Wagner());
             #endregion
             #region spt.location
             consumer.Accept(new DawnWinery());
@@ -85,11 +89,13 @@ namespace Genshin3_3
             #endregion
             #region evt.utils
             consumer.Accept(new Event_BestCompanion());
+            consumer.Accept(new Event_Blessing());
             consumer.Accept(new Event_CalxArts());
             consumer.Accept(new Event_ChangingShifts());
             consumer.Accept(new Event_GuardianOath());
             consumer.Accept(new Event_IHaventLost());
             consumer.Accept(new Event_LeaveItToMe());
+            consumer.Accept(new Event_MasterOfWeapon());
             consumer.Accept(new Event_QuickKnit());
             consumer.Accept(new Event_SendOff());
             consumer.Accept(new Event_Starsigns());

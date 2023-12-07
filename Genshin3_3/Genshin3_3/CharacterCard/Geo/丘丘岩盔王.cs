@@ -28,7 +28,7 @@ namespace Genshin3_3
             {SenderTag.RoundStart,(me, p, s, v) => me.AddPersistent(new Effect_QQ_ATK(), p.PersistentRegion, p)}
         };
     }
-    public class Effect_QQ_ATK : AbstractCardPersistent
+    public class Effect_QQ_ATK : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()

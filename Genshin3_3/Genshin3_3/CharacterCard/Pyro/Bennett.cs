@@ -20,14 +20,14 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
     }
-    public class Effect_Bennett : AbstractCardPersistent
+    public class Effect_Bennett : AbstractCardEffect
     {
         public Effect_Bennett(bool talent = false)
         {
             Variant = talent ? 1 : 0;
             TriggerDic = new()
             {
-                { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes-- },
+                new PersistentPreset.RoundStepDecrease(),
                 { SenderTag.DamageIncrease,(me,p,s,v)=>
                     {
                         if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))

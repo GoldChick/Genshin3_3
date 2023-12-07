@@ -10,7 +10,7 @@ namespace Genshin3_3
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Cryo(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(1,2,new Effect_Diona(1),false),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Cryo(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Diona(1)),new DamageVariable(1,2)),
             new Q(),
         };
         private class Q : AbstractCardSkill
@@ -45,7 +45,7 @@ namespace Genshin3_3
             MaxUseTimes = maxusetimes;
         }
     }
-    public class Summon_Diona : AbstractCardPersistentSummon
+    public class Summon_Diona : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

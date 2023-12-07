@@ -16,18 +16,8 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1 },
-            { SenderTag.DamageIncrease,(me,p,s,v)=>
-            {
-                if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
-                {
-                    if (dv.Element>=0)
-                    {
-                        dv.Damage++;
-                    }
-                }
-            }
-            },
+            new PersistentPreset.RoundStepReset(),
+            new PersistentPreset.WeaponDamageIncrease(),
             {SenderTag.AfterUseSkill, (me,p,s,v)=>
                 {
                     if (me.TeamIndex==s.TeamID && p.AvailableTimes > 0 && s is AfterUseSkillSender sks && sks.Character.Index==p.PersistentRegion && sks.Skill.Category == SkillCategory.E)

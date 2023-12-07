@@ -9,7 +9,7 @@ namespace Genshin3_3
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.UseDiceFromSkill,(me,p,s,v)=>
             {
                 if (p.AvailableTimes>0&&me.TeamIndex==s.TeamID && s is UseDiceFromSkillSender ss && ss.Character.Effects.Find(typeof(Effect_RoundSkillCounter)) is AbstractPersistent cnt)

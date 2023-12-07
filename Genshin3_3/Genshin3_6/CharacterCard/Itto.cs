@@ -38,7 +38,7 @@ namespace Genshin3_6
             }
         }
     }
-    public class Effect_Itto_Passive : AbstractCardPersistent
+    public class Effect_Itto_Passive : AbstractCardEffect
     {
         public override int InitialUseTimes => 1;
         public override int MaxUseTimes => 3;
@@ -70,7 +70,7 @@ namespace Genshin3_6
             persistent.AvailableTimes = int.Min(MaxUseTimes, persistent.AvailableTimes + 1);
         }
     }
-    public class Effect_Itto_E : AbstractCardPersistent
+    public class Effect_Itto_E : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
@@ -87,7 +87,7 @@ namespace Genshin3_6
             }
         };
     }
-    public class Summon_Itto : AbstractCardPersistentSummon
+    public class Summon_Itto : AbstractCardSummon
     {
         public override int MaxUseTimes => 1;
         public override bool CustomDesperated => true;
@@ -97,14 +97,14 @@ namespace Genshin3_6
             { SenderTag.RoundOver,(me,p,s,v)=>me.Enemy.Hurt(new(5,1),this,()=>p.Active=false)}
         };
     }
-    public class Effect_Itto_Q : AbstractCardPersistent
+    public class Effect_Itto_Q : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
             { SenderTag.ElementEnchant,new PersistentElementEnchant(5,false,1)},
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--}
+            new PersistentPreset.RoundStepDecrease(),
         };
     }
     public class Talent_Itto : AbstractCardEquipmentOverrideSkillTalent

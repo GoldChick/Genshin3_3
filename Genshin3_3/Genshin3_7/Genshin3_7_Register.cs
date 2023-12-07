@@ -20,6 +20,12 @@ namespace Genshin3_7
             consumer.Accept(new Weapon_TheBell());
             consumer.Accept(new Weapon_VortexVanquisher());
 
+            consumer.Accept(new Location_ChinjuForest());
+            consumer.Accept(new Location_SangonomiyaShrine());
+            consumer.Accept(new Location_SumeruCity());
+            consumer.Accept(new Location_Tenshukaku());
+            consumer.Accept(new Location_Vanarana());
+
             consumer.Accept(new Partner_Dunyarzad());
             consumer.Accept(new Partner_KidKujirai());
             consumer.Accept(new Partner_Rana());

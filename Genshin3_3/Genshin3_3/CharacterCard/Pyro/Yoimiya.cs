@@ -31,7 +31,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Effect_Yoimiya_E : AbstractCardPersistent
+    public class Effect_Yoimiya_E : AbstractCardEffect
     {
         public override int MaxUseTimes { get; }
         public override PersistentTriggerDictionary TriggerDic => new()
@@ -66,7 +66,7 @@ namespace Genshin3_3
             });
         }
     }
-    public class Effect_Yoimiya_Q : AbstractCardPersistent
+    public class Effect_Yoimiya_Q : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
         public override PersistentTriggerDictionary TriggerDic => new()

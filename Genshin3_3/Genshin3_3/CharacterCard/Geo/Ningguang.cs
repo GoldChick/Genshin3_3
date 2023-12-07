@@ -8,7 +8,7 @@ namespace Genshin3_3
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Geo(1).ToCostInit(),new DamageVariable(5,1)),
-            new CharacterEffectE(5,2,new Effect_Ningguang(),false),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Geo(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Ningguang()),new DamageVariable(5,2)),
             new 天权崩玉()
         };
 
@@ -31,7 +31,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Effect_Ningguang : AbstractCardPersistent
+    public class Effect_Ningguang : AbstractCardEffect
     {
         public override string NameID => "effect_ningguang";
         public override int MaxUseTimes => 2;

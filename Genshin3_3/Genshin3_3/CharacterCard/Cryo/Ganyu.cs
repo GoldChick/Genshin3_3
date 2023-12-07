@@ -10,7 +10,7 @@ namespace Genshin3_3
         public override int MaxMP => 3;
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[] {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Cryo(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(1,1,new Effect_Ganyu(),false),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Cryo(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Ganyu()),new DamageVariable(1,1)),
             new CharacterSimpleSkill
             (
                 SkillCategory.A,
@@ -30,7 +30,7 @@ namespace Genshin3_3
 
         public override string NameID => "ganyu";
     }
-    public class Effect_Ganyu : AbstractCardPersistent
+    public class Effect_Ganyu : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -41,13 +41,13 @@ namespace Genshin3_3
 
         public override string NameID => "effect_ganyu";
     }
-    public class Effect_Ganyu_Counter : AbstractCardPersistent
+    public class Effect_Ganyu_Counter : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
         public override PersistentTriggerDictionary TriggerDic => new();
     }
-    public class Summon_Ganyu : AbstractCardPersistentSummon
+    public class Summon_Ganyu : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

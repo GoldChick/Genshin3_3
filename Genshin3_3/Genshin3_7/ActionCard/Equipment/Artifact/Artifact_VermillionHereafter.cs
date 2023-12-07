@@ -15,7 +15,7 @@ namespace Genshin3_7
             });
         }
     }
-    public class Effect_VermillionHereafter : AbstractCardPersistent
+    public class Effect_VermillionHereafter : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
@@ -29,7 +29,7 @@ namespace Genshin3_7
 	            }
             } 
             },
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--}
+            new PersistentPreset.RoundStepDecrease(),
         };
     }
 }

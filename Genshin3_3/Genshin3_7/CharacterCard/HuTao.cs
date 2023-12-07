@@ -29,7 +29,7 @@ namespace Genshin3_7
             }
         }
     }
-    public class Effect_HuTao_A : AbstractCardPersistent
+    public class Effect_HuTao_A : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
@@ -38,13 +38,13 @@ namespace Genshin3_7
             { SenderTag.RoundOver,(me,p,s,v)=>me.Hurt(new(3,1,p.PersistentRegion-me.CurrCharacter),this,()=>p.AvailableTimes--)}
         };
     }
-    public class Effect_HuTao_E : AbstractCardPersistent
+    public class Effect_HuTao_E : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.ElementEnchant,(me,p,s,v)=>
             {
                 if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))

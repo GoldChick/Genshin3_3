@@ -18,13 +18,13 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
     }
-    public class Effect_Razor : AbstractCardPersistent
+    public class Effect_Razor : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.AfterUseSkill,(me,p,s,v)=>
             {
                 if (me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && ss.Character.Index==p.PersistentRegion && (ss.Skill.Category==SkillCategory.A||ss.Skill.Category==SkillCategory.E))
@@ -44,7 +44,7 @@ namespace Genshin3_3
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.AfterUseSkill,(me,p,s,v)=>
             {
                 if (p.AvailableTimes>0 &&me.TeamIndex==s.TeamID && s is AfterUseSkillSender ss && ss.Character.Index==p.PersistentRegion && ss.Skill.Category==SkillCategory.E)

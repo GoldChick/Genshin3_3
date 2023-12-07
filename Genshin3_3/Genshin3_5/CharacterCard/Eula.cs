@@ -8,7 +8,7 @@ namespace Genshin3_5
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Cryo(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(1,2,new Effect_Eula()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Cryo(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Eula(),c.Index),new DamageVariable(1,2)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddSummon(new Summon_Eula()),new DamageVariable(1,2)),
         };
@@ -19,7 +19,7 @@ namespace Genshin3_5
 
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
     }
-    public class Effect_Eula : AbstractCardPersistent
+    public class Effect_Eula : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
@@ -39,7 +39,7 @@ namespace Genshin3_5
             persistent.Active = false;
         }
     }
-    public class Summon_Eula : AbstractCardPersistentSummon
+    public class Summon_Eula : AbstractCardSummon
     {
         public override int MaxUseTimes => 0;
         public override bool CustomDesperated => true;
@@ -66,7 +66,7 @@ namespace Genshin3_5
 
     public class Talent_Eula : AbstractCardEquipmentOverrideSkillTalent
     {
-        public override int Skill =>2;
+        public override int Skill => 2;
 
         public override string CharacterNameID => "eula";
 

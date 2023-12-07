@@ -19,23 +19,16 @@ namespace Genshin3_7
 	            }
             } 
             },
-            { SenderTag.DamageIncrease,(me,p,s,v)=>
-            {
-                if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
-                {
-                     dv.Damage++;
-	            }
-            } 
-            }
+           new PersistentPreset.WeaponDamageIncrease()
         };
     }
-    public class Effect_ElegyForTheEnd : AbstractCardPersistent
+    public class Effect_ElegyForTheEnd : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.DamageIncrease,(me,p,s,v)=>
             {
                 if (me.TeamIndex==s.TeamID && v is DamageVariable dv && dv.DirectSource==DamageSource.Character)

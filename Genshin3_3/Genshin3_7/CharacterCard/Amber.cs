@@ -7,7 +7,7 @@ namespace Genshin3_7
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Pyro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterSingleSummonE(new Summon_Amber(),3),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Pyro(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_Amber())),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Pyro(3).MP(2).ToCostInit(),new DamageVariable(3,2), new(-1, 2, 0, true)),
         };
 
@@ -17,7 +17,7 @@ namespace Genshin3_7
 
         public override CharacterRegion CharacterRegion => CharacterRegion.MONDSTADT;
     }
-    public class Summon_Amber : AbstractCardPersistentSummon
+    public class Summon_Amber : AbstractCardSummon
     {
         public override int MaxUseTimes => 1;
         public override bool CustomDesperated => true;

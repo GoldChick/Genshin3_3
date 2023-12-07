@@ -6,7 +6,12 @@ namespace Genshin3_5
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(2,1)),
-            new E(),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Hydro(3).ToCostInit(),
+                (skill,me,c,args)=>
+                {
+                    me.AttachElement(skill,2,c.Index-me.CurrCharacter);
+                    me.AddSummon(new Summon_Kokomi());
+                }),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Hydro(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Kokomi(),c.Index),new DamageVariable(2,2)),
         };
@@ -16,18 +21,6 @@ namespace Genshin3_5
         public override WeaponCategory WeaponCategory => WeaponCategory.Catalyst;
 
         public override CharacterRegion CharacterRegion => CharacterRegion.INAZUMA;
-        private class E : AbstractCardSkill
-        {
-            public override SkillCategory Category => SkillCategory.E;
-
-            public override CostInit Cost => new CostCreate().Hydro(3).ToCostInit();
-
-            public override void AfterUseAction(PlayerTeam me, Character c, int[] targetArgs)
-            {
-                me.AttachElement(this, 2, 0);
-                me.AddSummon(new Summon_Kokomi());
-            }
-        }
         private class Q : AbstractCardSkill
         {
             public override SkillCategory Category => SkillCategory.Q;
@@ -44,7 +37,7 @@ namespace Genshin3_5
             }
         }
     }
-    public class Effect_Kokomi : AbstractCardPersistent
+    public class Effect_Kokomi : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -70,7 +63,7 @@ namespace Genshin3_5
             }
         };
     }
-    public class Summon_Kokomi : AbstractCardPersistentSummon
+    public class Summon_Kokomi : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

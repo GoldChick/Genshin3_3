@@ -16,21 +16,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.DamageIncrease,(me,p,s,v)=>
-            {
-                if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
-                {
-                    if (dv.Element>=0)
-                    {
-                        dv.Damage++;
-                    }
-                    if (me.Enemy.Characters[dv.TargetIndex].HP<=6)
-                    {
-                        dv.Damage+=2;
-                    }
-                }
-            }
-            }
+            new PersistentPreset.WeaponDamageIncrease((me,p,s,v)=>me.Enemy.Characters[v.TargetIndex].HP<=6?3:1)
         };
     }
 }

@@ -33,7 +33,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Summon_Jean : AbstractCardPersistentSummon
+    public class Summon_Jean : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

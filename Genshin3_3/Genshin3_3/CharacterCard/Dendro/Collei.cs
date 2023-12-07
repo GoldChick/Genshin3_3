@@ -36,9 +36,9 @@ namespace Genshin3_3
         public override CostInit Cost => new CostCreate().Dendro(4).ToCostInit();
 
         public override PersistentTriggerDictionary TriggerDic => new()
-            {
-                { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1}
-            };
+        {
+            new PersistentPreset.RoundStepReset(),
+        };
         public override int MaxUseTimes => 1;
         public override void TalentTriggerAction(PlayerTeam me, Character c, int[] targetArgs)
         {
@@ -53,13 +53,13 @@ namespace Genshin3_3
             });
         }
     }
-    public class Effect_Collei : AbstractCardPersistent
+    public class Effect_Collei : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
         public override string NameID => "effect_collei";
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.AfterHurt,(me,p,s,v)=>
             {
                 if (me.TeamIndex!=s.TeamID && s is HurtSender hs && hs.RootSource is AbstractCardSkill)

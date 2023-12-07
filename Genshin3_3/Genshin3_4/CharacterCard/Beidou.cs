@@ -8,7 +8,7 @@ namespace Genshin3_4
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Electro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(new Effect_Beidou_E()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Electro(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Beidou_E(), c.Index)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Electro(3).ToCostInit(),
                 (skill,me,c,args)=>me.AddPersistent(new Effect_Beidou_Q())
                 ,new DamageVariable(4,2)),
@@ -23,7 +23,7 @@ namespace Genshin3_4
         public override string NameID => "beidou";
 
     }
-    public class Effect_Beidou_E : AbstractCardPersistent
+    public class Effect_Beidou_E : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
         public override bool CustomDesperated => true;
@@ -50,17 +50,17 @@ namespace Genshin3_4
             }
         };
     }
-    public class Effect_Beidou_Q : AbstractCardPersistent
+    public class Effect_Beidou_Q : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+            new PersistentPreset.RoundStepDecrease(),
             { SenderTag.AfterUseSkill,(me,p,s,v)=>me.Enemy.Hurt(new(4,1),this) },
             { SenderTag.HurtDecrease,new PersistentPurpleShield(1,3)}
         };
     }
-    public class Effect_Beidou_Talent : AbstractCardPersistent
+    public class Effect_Beidou_Talent : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -80,7 +80,7 @@ namespace Genshin3_4
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.AfterUseSkill,(me,p,s,v)=>
             {
                 if (s is AfterUseSkillSender uss  && p.AvailableTimes>0 && uss.Character.Index==p.PersistentRegion && uss.Skill.Category==SkillCategory.E)

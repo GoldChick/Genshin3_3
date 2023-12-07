@@ -7,9 +7,10 @@ namespace Genshin3_7
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Hydro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(2,2,new Effect_Tartaglia_Sword()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Hydro(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Tartaglia_Sword(),c.Index),new DamageVariable(2,2)),
             new Q()
         };
+        public override int MaxMP => 3;
 
         public override ElementCategory CharacterElement => ElementCategory.Hydro;
 
@@ -35,7 +36,7 @@ namespace Genshin3_7
             }
         }
     }
-    public class Effect_Tartaglia_Stream : AbstractCardPersistent
+    public class Effect_Tartaglia_Stream : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
@@ -57,7 +58,7 @@ namespace Genshin3_7
             }
         };
     }
-    public class Effect_Tartaglia_Stream_Die : AbstractCardPersistent
+    public class Effect_Tartaglia_Stream_Die : AbstractCardEffect
     {
         public override int MaxUseTimes => 1;
 
@@ -74,7 +75,7 @@ namespace Genshin3_7
             }
         };
     }
-    public class Effect_Tartaglia_Sword : AbstractCardPersistent
+    public class Effect_Tartaglia_Sword : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 

@@ -9,7 +9,7 @@ namespace Genshin3_7
         public override int MaxUseTimes => 1;
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.UseDiceFromCard,new PersistentDiceCostModifier<UseDiceFromCardSender>(
                 (me,p,s,v)=>me.TeamIndex==s.TeamID && s.Card is AbstractCardSupport sp && sp.SupportTag==SupportTags.Partner,
                 0,1)},

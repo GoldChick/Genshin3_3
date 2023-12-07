@@ -12,7 +12,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--}
+            new PersistentPreset.RoundStepDecrease()
         };
 
         public override void AfterUseAction(PlayerTeam me, int[] targetArgs)

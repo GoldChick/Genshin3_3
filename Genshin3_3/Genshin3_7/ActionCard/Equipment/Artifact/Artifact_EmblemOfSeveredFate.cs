@@ -17,7 +17,7 @@ namespace Genshin3_7
                     p.AvailableTimes = 0;
                 }
             });
-            TriggerDic.Add(SenderTag.RoundStep,(me, p, s, v)=>p.AvailableTimes = 1);
+            TriggerDic.Add(new PersistentPreset.RoundStepReset());
         }
     }
 }

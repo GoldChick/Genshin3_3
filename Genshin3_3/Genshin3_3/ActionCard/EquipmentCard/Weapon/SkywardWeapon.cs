@@ -16,15 +16,12 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=1 },
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.DamageIncrease,(me,p,s,v)=>
             {
                 if (PersistentFunc.IsCurrCharacterDamage(me,p,s,v,out var dv))
                 {
-                    if (dv.Element>=0)
-                    {
-                        dv.Damage++;
-                    }
+                    dv.Damage++;
                     if (p.AvailableTimes>0 &&s is PreHurtSender hs && hs.RootSource is AbstractCardSkill sk && sk.Category==SkillCategory.A)
                     {
                         dv.Damage++;

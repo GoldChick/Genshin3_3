@@ -80,7 +80,7 @@ namespace Genshin3_3
             }
         }
     }
-    public class Effect_Keqing : AbstractCardPersistent
+    public class Effect_Keqing : AbstractCardEffect
     {
         public Effect_Keqing(bool talent = false)
         {
@@ -88,7 +88,7 @@ namespace Genshin3_3
             Variant = talent ? 1 : 0;
             TriggerDic = new()
             {
-                { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes--},
+                new PersistentPreset.RoundStepDecrease(),
                 { SenderTag.ElementEnchant,new PersistentElementEnchant(4,true,talent?1:0)}
             };
         }

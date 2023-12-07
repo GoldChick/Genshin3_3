@@ -7,7 +7,7 @@ namespace Genshin3_5
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Electro(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterSingleSummonE(4,1,new Summon_KojouSara_E()),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Electro(3).ToCostInit(),(skill,me,c,args)=>me.AddSummon(new Summon_KojouSara_E()),new DamageVariable(4,1)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Electro(4).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddSummon(new Summon_KojouSara_Q()),new DamageVariable(4,1)),
         };
@@ -18,7 +18,7 @@ namespace Genshin3_5
 
         public override CharacterRegion CharacterRegion => CharacterRegion.INAZUMA;
     }
-    public class Effect_KojouSara : AbstractCardPersistent
+    public class Effect_KojouSara : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
 
@@ -41,7 +41,7 @@ namespace Genshin3_5
         };
     }
 
-    public class Summon_KojouSara_E : AbstractCardPersistentSummon
+    public class Summon_KojouSara_E : AbstractCardSummon
     {
         public override int MaxUseTimes => 1;
 
@@ -50,7 +50,7 @@ namespace Genshin3_5
             { SenderTag.RoundOver,(me,p,s,v)=>me.Enemy.Hurt(new(4,1),this,()=>me.AddPersistent(new Effect_KojouSara(),me.CurrCharacter))}
         };
     }
-    public class Summon_KojouSara_Q : AbstractCardPersistentSummon
+    public class Summon_KojouSara_Q : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

@@ -7,7 +7,7 @@ namespace Genshin3_7
         public override AbstractCardSkill[] Skills => new AbstractCardSkill[]
         {
             new CharacterSimpleSkill(SkillCategory.A,new CostCreate().Void(2).Cryo(1).ToCostInit(),new DamageVariable(0,2)),
-            new CharacterEffectE(1,2,new Effect_Shenhe(),false),
+            new CharacterSimpleSkill(SkillCategory.E,new CostCreate().Cryo(3).ToCostInit(),(skill,me,c,args)=>me.AddPersistent(new Effect_Shenhe()),new DamageVariable(1,2)),
             new CharacterSimpleSkill(SkillCategory.Q,new CostCreate().Cryo(3).MP(2).ToCostInit(),
                 (skill,me,c,args)=>me.AddSummon(new Summon_Shenhe()),new DamageVariable(1,1)),
         };
@@ -18,7 +18,7 @@ namespace Genshin3_7
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
     }
-    public class Effect_Shenhe : AbstractCardPersistent
+    public class Effect_Shenhe : AbstractCardEffect
     {
         public override int MaxUseTimes => 2;
         public Effect_Shenhe(bool talent = false)
@@ -49,7 +49,7 @@ namespace Genshin3_7
         }
         public override PersistentTriggerDictionary TriggerDic { get; }
     }
-    public class Summon_Shenhe : AbstractCardPersistentSummon
+    public class Summon_Shenhe : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
 

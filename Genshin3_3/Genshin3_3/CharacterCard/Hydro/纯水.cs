@@ -32,7 +32,7 @@ namespace Genshin3_3
                 }
             }
             public override SkillCategory Category => SkillCategory.E;
-            public static AbstractCardPersistentSummon[] PersistentPool => new AbstractCardPersistentSummon[]
+            public static AbstractCardSummon[] PersistentPool => new AbstractCardSummon[]
             {
                 new Summon_Hydro_Bird(),
                 new Summon_Hydro_Squirrel(),
@@ -67,7 +67,7 @@ namespace Genshin3_3
         {
         }
     }
-    public class Summon_Hydro_Frog : AbstractCardPersistentSummon
+    public class Summon_Hydro_Frog : AbstractCardSummon
     {
         public override int MaxUseTimes => 2;
         public override bool CustomDesperated => true;

@@ -13,7 +13,7 @@ namespace Genshin3_3
             { SenderTag.UseDiceFromSkill,new PersistentDiceCostModifier<UseDiceFromSkillSender>(
                 (me,p,s,v)=>me.TeamIndex==s.TeamID && s.Character.Index==p.PersistentRegion && s.Skill.Category==SkillCategory.A
                 ,-1,1)},
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes-- }
+            new PersistentPreset.RoundStepDecrease(),
         };
     }
 }

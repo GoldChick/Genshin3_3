@@ -11,7 +11,7 @@ namespace Genshin3_3
         public override PersistentTriggerDictionary TriggerDic => new()
         {
             { SenderTag.HurtDecrease,new PersistentPurpleShield(3,1) },
-            { SenderTag.RoundStep,(me,p,s,v)=>p.Active=false }
+            new PersistentPreset.RoundStepDecrease(),
         };
     }
 }

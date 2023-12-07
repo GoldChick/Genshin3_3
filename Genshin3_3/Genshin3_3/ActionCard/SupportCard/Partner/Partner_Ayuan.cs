@@ -11,7 +11,7 @@ namespace Genshin3_3
 
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=MaxUseTimes},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.UseDiceFromCard,new PersistentDiceCostModifier<UseDiceFromCardSender>(
                 (me,p,s,v)=>me.TeamIndex==s.TeamID && s.Card is AbstractCardSupport sp && sp.SupportTag==SupportTags.Place,
                 0,2)

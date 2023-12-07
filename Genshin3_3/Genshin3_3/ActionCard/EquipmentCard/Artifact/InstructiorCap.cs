@@ -12,7 +12,7 @@ namespace Genshin3_3
         /// </summary>
         public override PersistentTriggerDictionary TriggerDic => new()
         {
-            { SenderTag.RoundStep,(me,p,s,v)=>p.AvailableTimes=3},
+            new PersistentPreset.RoundStepReset(),
             { SenderTag.BeforeUseSkill,(me,p,s,v)=> p.Data=1 },
             { SenderTag.AfterHurt,(me,p,s,v)=>
             {

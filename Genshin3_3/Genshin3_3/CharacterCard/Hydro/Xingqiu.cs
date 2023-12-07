@@ -25,7 +25,7 @@ namespace Genshin3_3
 
         public override CharacterRegion CharacterRegion => CharacterRegion.LIYUE;
     }
-    public class Effect_Xingqiu_E : AbstractCardPersistent
+    public class Effect_Xingqiu_E : AbstractCardEffect
     {
         public override int MaxUseTimes { get; }
         public override PersistentTriggerDictionary TriggerDic { get; }
@@ -40,7 +40,7 @@ namespace Genshin3_3
         }
 
     }
-    public class Effect_Xingqiu_Q : AbstractCardPersistent
+    public class Effect_Xingqiu_Q : AbstractCardEffect
     {
         public override int MaxUseTimes => 3;
         public override PersistentTriggerDictionary TriggerDic => new()
